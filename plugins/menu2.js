@@ -125,5 +125,5 @@ ${cmdsList}
 > *رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا*`.trim(), contextInfo: context(m.sender, getImg(bot)) }, { quoted: m });
 }
 
-handler.command = ['المهام'];
+handler.command =['ي عاق'];
 export default handler;
