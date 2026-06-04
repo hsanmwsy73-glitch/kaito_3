@@ -2,6 +2,29 @@ import { Client } from 'meowsab';
 import { group, access } from "./system/control.js";
 import UltraDB from "./system/UltraDB.js";
 import sub from './sub.js';
+import { startDashboard, state, pushUpdate } from './dashboard.js';
+
+/* =========== Dashboard ========== */
+startDashboard(5000);
+
+/* =========== Intercept stdout to capture pairing code ========== */
+const _stripAnsi = (str) => str.replace(/\x1B\[[0-9;]*[mGKHF]/g, '').replace(/\x1B\][^\x07]*\x07/g, '');
+const _origWrite = process.stdout.write.bind(process.stdout);
+process.stdout.write = (chunk, ...rest) => {
+  const raw = typeof chunk === 'string' ? chunk : chunk.toString();
+  const line = _stripAnsi(raw);
+  const match = line.match(/Pairing\s*Code\s+([A-Z0-9]{4,})/i);
+  if (match) {
+    state.pairingCode = match[1];
+    state.status = 'connecting';
+    pushUpdate();
+  }
+  if (/Session logged out/i.test(line)) {
+    state.status = 'disconnected';
+    pushUpdate();
+  }
+  return _origWrite(chunk, ...rest);
+};
 
 /* =========== Client ========== */
 const client = new Client({
@@ -19,7 +42,16 @@ const client = new Client({
    { name: "", jid: "@s.whatsapp.net", lid: "51664513925368@lid" }
   ],
   settings: { noWelcome: false },
-  commandsPath: './plugins'
+  commandsPath: './plugins',
+  onConnected: () => {
+    state.status = 'connected';
+    state.connectedAt = new Date().toISOString();
+    pushUpdate();
+  },
+  onDisconnected: () => {
+    state.status = 'disconnected';
+    pushUpdate();
+  },
 });
 
 client.onGroupEvent(group);
@@ -52,12 +84,20 @@ config.info = {
   ]
 };
 
+/* =========== Seed dashboard state ========== */
+state.phoneNumber = '201093036797';
+state.botName = 'KAITO Bot';
+pushUpdate();
+
 /* =========== Start ========== */
 client.start();
 
 setTimeout(async () => {
-if (client.commandSystem) { 
-sub(client)
+  if (client.commandSystem) {
+    const cmds = client.commandSystem.getAll();
+    state.commandCount = cmds.length;
+    pushUpdate();
+    sub(client);
   }
 }, 2000);
 
