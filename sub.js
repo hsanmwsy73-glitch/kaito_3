@@ -67,12 +67,21 @@ async function sub(client) {
     return global.subBots;
   }
 
+  // Global phone-number registry so both startup and runtime bot-add paths
+  // can register uid -> phone for the reconnect handler.
+  global.subBotRegistry = new Map(); // uid -> phone
+
+  // Track UIDs whose reconnect cycle is already in progress so multiple
+  // close events for the same bot don't launch parallel reconnect chains.
+  const reconnectInProgress = new Set();
+
   // Load each bot individually so one failure cannot stop the others
   let successCount = 0;
   let failedCount = 0;
   for (const { uid, phone } of botConfigs) {
     try {
       await global.subBots.spawn_(uid, phone, gCfg, ver);
+      global.subBotRegistry.set(uid, phone);
       successCount++;
     } catch (error) {
       failedCount++;
@@ -112,8 +121,46 @@ async function sub(client) {
     }
   });
 
+  const MAX_RETRIES = 3;
+  const BASE_DELAY_MS = 5000;
+
+  async function attemptReconnect(uid, attempt) {
+    const phone = global.subBotRegistry.get(uid);
+    if (!phone) {
+      console.error(`❌ [SubBot ${uid}] Cannot reconnect — phone not found in registry`);
+      reconnectInProgress.delete(uid);
+      return;
+    }
+
+    if (attempt > MAX_RETRIES) {
+      console.error(`❌ [SubBot ${uid}] Permanent failure — gave up after ${MAX_RETRIES} reconnect attempts`);
+      reconnectInProgress.delete(uid);
+      return;
+    }
+
+    const delay = BASE_DELAY_MS * Math.pow(2, attempt - 1);
+    console.log(`🔄 [SubBot ${uid}] Reconnect attempt ${attempt}/${MAX_RETRIES} in ${delay / 1000}s…`);
+
+    setTimeout(async () => {
+      try {
+        await global.subBots.spawn_(uid, phone, gCfg, ver);
+        console.log(`✅ [SubBot ${uid}] Reconnected successfully (attempt ${attempt})`);
+        reconnectInProgress.delete(uid);
+      } catch (err) {
+        console.error(`⚠️ [SubBot ${uid}] Reconnect attempt ${attempt} failed:`, err?.message || err);
+        await attemptReconnect(uid, attempt + 1);
+      }
+    }, delay);
+  }
+
   global.subBots.on('close', (uid) => {
     console.log(`🔌 [SubBot ${uid}] Disconnected`);
+    if (reconnectInProgress.has(uid)) {
+      console.log(`⏩ [SubBot ${uid}] Reconnect already in progress, skipping duplicate`);
+      return;
+    }
+    reconnectInProgress.add(uid);
+    attemptReconnect(uid, 1);
   });
 
   global.subBots.on('badSession', (uid) => {

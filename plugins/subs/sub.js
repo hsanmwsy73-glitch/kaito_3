@@ -57,6 +57,10 @@ if (subBots.list().length >= 30) {
 
     state.uid = await sub.add(num);
 
+    // Register uid -> phone so the reconnect handler in sub.js can re-spawn
+    // this bot if it disconnects later (covers runtime additions, not just startup)
+    if (global.subBotRegistry) global.subBotRegistry.set(state.uid, num);
+
     if (state.pending?.id === state.uid && !state.pairDone) {
       state.pairDone = true;
       Func.pair(conn, state.pending.code, num, m, init);
