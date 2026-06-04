@@ -28,3 +28,8 @@ args = "npm start"
 
 [workflows.workflow.metadata]
 outputType = "console"
+
+[userenv]
+
+[userenv.shared]
+BOT_NUMBER = "201093036797"
