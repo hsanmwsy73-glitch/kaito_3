@@ -42,3 +42,7 @@ BOT_NUMBER = "201130746585"
 [[ports]]
 localPort = 5000
 externalPort = 80
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 60000
