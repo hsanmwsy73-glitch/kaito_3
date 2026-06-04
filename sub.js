@@ -1,4 +1,6 @@
 import { SubBots } from "meowsab";
+import fs from "fs";
+import path from "path";
 
 async function sub(client) {
 
@@ -20,6 +22,18 @@ async function sub(client) {
   global.subBots.on('error', (uid, error) => {
     console.error(`❌ [SubBot ${uid}] Error:`, error?.message || error);
   });
+
+  const subDir = path.resolve("sub");
+  if (fs.existsSync(subDir)) {
+    for (const entry of fs.readdirSync(subDir)) {
+      if (/^shard-/.test(entry)) {
+        const lockFile = path.join(subDir, entry, "LOCK");
+        if (fs.existsSync(lockFile)) {
+          fs.rmSync(lockFile);
+        }
+      }
+    }
+  }
 
   const loadedCount = await global.subBots.load();
   console.log(`✅ Loaded ${loadedCount} saved bots`);
