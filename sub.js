@@ -1,4 +1,5 @@
 import { SubBots } from "meowsab";
+import { Level } from "level";
 import fs from "fs";
 import path from "path";
 
@@ -24,19 +25,61 @@ async function sub(client) {
   });
 
   const subDir = path.resolve("sub");
+  const botConfigs = [];
+
   if (fs.existsSync(subDir)) {
     for (const entry of fs.readdirSync(subDir)) {
-      if (/^shard-/.test(entry)) {
-        const lockFile = path.join(subDir, entry, "LOCK");
-        if (fs.existsSync(lockFile)) {
-          fs.rmSync(lockFile);
+      if (!/^shard-/.test(entry)) continue;
+      const shardPath = path.join(subDir, entry);
+
+      const lockFile = path.join(shardPath, "LOCK");
+      if (fs.existsSync(lockFile)) fs.rmSync(lockFile);
+
+      let db;
+      try {
+        db = new Level(shardPath, { valueEncoding: 'utf8' });
+        await db.open();
+        for await (const [key, value] of db.iterator()) {
+          if (key.endsWith('::phone')) {
+            botConfigs.push({
+              uid: key.slice(0, -'::phone'.length),
+              phone: value.replace(/^\+/, '')
+            });
+          }
         }
+      } catch (readErr) {
+        console.error(`⚠️ Failed to scan shard ${entry}:`, readErr?.message || readErr);
+      } finally {
+        if (db) { try { await db.close(); } catch {} }
       }
     }
   }
 
-  const loadedCount = await global.subBots.load();
-  console.log(`✅ Loaded ${loadedCount} saved bots`);
+  // Resolve internal params required by spawn_ before the per-bot loop
+  let ver, gCfg;
+  try {
+    [ver, gCfg] = await Promise.all([
+      global.subBots.ver_(),
+      global.subBots.gCfg_()
+    ]);
+  } catch (err) {
+    console.error('❌ [SubBots] Failed to initialise load parameters:', err?.message || err);
+    return global.subBots;
+  }
+
+  // Load each bot individually so one failure cannot stop the others
+  let successCount = 0;
+  let failedCount = 0;
+  for (const { uid, phone } of botConfigs) {
+    try {
+      await global.subBots.spawn_(uid, phone, gCfg, ver);
+      successCount++;
+    } catch (error) {
+      failedCount++;
+      console.error(`❌ [SubBot ${uid}] Failed to load (skipping):`, error?.message || error);
+    }
+  }
+  console.log(`✅ SubBots load complete — ${successCount} succeeded, ${failedCount} failed`);
 
   global.subBots.on('ready', async (uid, sock) => {
     console.log(`✅ [SubBot ${uid}] Connected!`);
