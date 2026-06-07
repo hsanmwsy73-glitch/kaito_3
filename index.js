@@ -115,6 +115,36 @@ state.phoneNumber = '201093036797';
 state.botName = 'KAITO Bot';
 pushUpdate();
 
+/* =========== Wipe stale session on exit ========== */
+function wipeSession() {
+  try {
+    const sessionDir = path.resolve('./session');
+    fs.rmSync(sessionDir, { recursive: true, force: true });
+    fs.mkdirSync(sessionDir, { recursive: true });
+  } catch (_) {}
+}
+
+for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP']) {
+  process.on(sig, () => {
+    wipeSession();
+    process.exit(0);
+  });
+}
+
+/* =========== Validate session before connecting ========== */
+(function validateSession() {
+  const credsPath = path.resolve('./session/creds.json');
+  try {
+    if (!fs.existsSync(credsPath)) return;
+    const raw = fs.readFileSync(credsPath, 'utf8').trim();
+    if (!raw) throw new Error('empty');
+    JSON.parse(raw);
+  } catch (_) {
+    console.log('[Bot] Stale or invalid session detected — wiping before connect.');
+    wipeSession();
+  }
+})();
+
 /* =========== Start ========== */
 client.start();
 
@@ -130,11 +160,15 @@ setTimeout(async () => {
 
 /* =========== Catch Errors ========== */
 process.on('uncaughtException', (e) => {
-    if (e.message.includes('rate-overlimit')) {}
+    if (e.message.includes('rate-overlimit')) return;
+    console.error('Uncaught Exception:', e.message);
+    wipeSession();
+    process.exit(1);
 });
 
 process.on('unhandledRejection', (err) => {
-    console.error('Unhandled Rejection:', err)
+    console.error('Unhandled Rejection:', err);
+    wipeSession();
 });
 
 
