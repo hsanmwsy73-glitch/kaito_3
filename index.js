@@ -28,7 +28,7 @@ process.stdout.write = (chunk, ...rest) => {
 
 /* =========== Client ========== */
 const client = new Client({
-  phoneNumber: '201130746585', // Bot number
+  phoneNumber: '9647844320011', // Bot number
   prefix: [".", "/", "!"],
   fromMe: false, 
   owners: [
