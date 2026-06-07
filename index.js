@@ -9,6 +9,10 @@ import path from 'path';
 /* =========== Dashboard ========== */
 startDashboard(5000);
 
+/* =========== Re-pairing retry config ========== */
+const MAX_REPAIR_ATTEMPTS = 3;
+let repairAttempts = 0;
+
 /* =========== Intercept stdout to capture pairing code ========== */
 const _stripAnsi = (str) => str.replace(/\x1B\[[0-9;]*[mGKHF]/g, '').replace(/\x1B\][^\x07]*\x07/g, '');
 const _origWrite = process.stdout.write.bind(process.stdout);
@@ -22,15 +26,26 @@ process.stdout.write = (chunk, ...rest) => {
     pushUpdate();
   }
   if (/Session logged out/i.test(line)) {
-    const sessionDir = path.resolve('./session');
-    fs.rmSync(sessionDir, { recursive: true, force: true });
-    fs.mkdirSync(sessionDir, { recursive: true });
-    state.status = 're-pairing';
-    state.pairingCode = null;
-    pushUpdate();
-    setTimeout(() => {
-      client.start();
-    }, 1500);
+    if (repairAttempts >= MAX_REPAIR_ATTEMPTS) {
+      state.status = 'failed';
+      state.pairingCode = null;
+      state.repairAttempts = repairAttempts;
+      pushUpdate();
+      console.error(`[Bot] Re-pairing limit reached (${MAX_REPAIR_ATTEMPTS} attempts). Giving up to prevent endless restart loop.`);
+    } else {
+      repairAttempts += 1;
+      const sessionDir = path.resolve('./session');
+      fs.rmSync(sessionDir, { recursive: true, force: true });
+      fs.mkdirSync(sessionDir, { recursive: true });
+      state.status = 're-pairing';
+      state.pairingCode = null;
+      state.repairAttempts = repairAttempts;
+      pushUpdate();
+      console.log(`[Bot] Re-pairing attempt ${repairAttempts}/${MAX_REPAIR_ATTEMPTS}...`);
+      setTimeout(() => {
+        client.start();
+      }, 1500);
+    }
   }
   return _origWrite(chunk, ...rest);
 };
@@ -53,8 +68,10 @@ const client = new Client({
   settings: { noWelcome: false },
   commandsPath: './plugins',
   onConnected: () => {
+    repairAttempts = 0;
     state.status = 'connected';
     state.connectedAt = new Date().toISOString();
+    state.repairAttempts = 0;
     pushUpdate();
   },
   onDisconnected: () => {

@@ -88,6 +88,7 @@ const HTML = `<!DOCTYPE html>
     .dot.connected  { background: #25d366; }
     .dot.disconnected { background: #ef4444; }
     .dot.re-pairing { background: #a78bfa; animation: pulse 1.4s infinite; }
+    .dot.failed     { background: #ef4444; }
 
     @keyframes pulse {
       0%, 100% { opacity: 1; }
@@ -268,6 +269,11 @@ const HTML = `<!DOCTYPE html>
           pairingCode.classList.add('none');
         }
         instructions.innerHTML = 'Session was logged out — old session cleared.<br>Open <b>WhatsApp</b> → <b>Linked Devices</b> → <b>Link a Device</b><br>Then enter the new pairing code above.';
+      } else if (s.status === 'failed') {
+        statusLabel.textContent = 'Failed — Giving Up';
+        pairingCode.textContent = 'Stopped';
+        pairingCode.classList.add('none');
+        instructions.innerHTML = 'Re-pairing failed after ' + (s.repairAttempts || 3) + ' attempts.<br>The number may be banned or unreachable.<br><b>Restart the bot manually</b> to try again.';
       } else if (s.status === 'disconnected') {
         statusLabel.textContent = 'Disconnected';
         pairingCode.textContent = s.pairingCode || 'Waiting...';
