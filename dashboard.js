@@ -87,6 +87,7 @@ const HTML = `<!DOCTYPE html>
     .dot.connecting { background: #f59e0b; animation: pulse 1.4s infinite; }
     .dot.connected  { background: #25d366; }
     .dot.disconnected { background: #ef4444; }
+    .dot.re-pairing { background: #a78bfa; animation: pulse 1.4s infinite; }
 
     @keyframes pulse {
       0%, 100% { opacity: 1; }
@@ -257,6 +258,16 @@ const HTML = `<!DOCTYPE html>
         pairingCode.textContent = 'Device linked';
         pairingCode.classList.remove('none');
         instructions.textContent = 'Bot is online and ready to receive commands.';
+      } else if (s.status === 're-pairing') {
+        statusLabel.textContent = 'Re-pairing...';
+        if (s.pairingCode) {
+          pairingCode.textContent = s.pairingCode;
+          pairingCode.classList.remove('none');
+        } else {
+          pairingCode.textContent = 'Generating...';
+          pairingCode.classList.add('none');
+        }
+        instructions.innerHTML = 'Session was logged out — old session cleared.<br>Open <b>WhatsApp</b> → <b>Linked Devices</b> → <b>Link a Device</b><br>Then enter the new pairing code above.';
       } else if (s.status === 'disconnected') {
         statusLabel.textContent = 'Disconnected';
         pairingCode.textContent = s.pairingCode || 'Waiting...';

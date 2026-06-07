@@ -3,6 +3,8 @@ import { group, access } from "./system/control.js";
 import UltraDB from "./system/UltraDB.js";
 import sub from './sub.js';
 import { startDashboard, state, pushUpdate } from './dashboard.js';
+import fs from 'fs';
+import path from 'path';
 
 /* =========== Dashboard ========== */
 startDashboard(5000);
@@ -20,8 +22,15 @@ process.stdout.write = (chunk, ...rest) => {
     pushUpdate();
   }
   if (/Session logged out/i.test(line)) {
-    state.status = 'disconnected';
+    const sessionDir = path.resolve('./session');
+    fs.rmSync(sessionDir, { recursive: true, force: true });
+    fs.mkdirSync(sessionDir, { recursive: true });
+    state.status = 're-pairing';
+    state.pairingCode = null;
     pushUpdate();
+    setTimeout(() => {
+      client.start();
+    }, 1500);
   }
   return _origWrite(chunk, ...rest);
 };
