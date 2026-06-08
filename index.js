@@ -7,7 +7,7 @@ import fs from 'fs';
 import path from 'path';
 
 /* =========== Dashboard ========== */
-startDashboard(5000);
+startDashboard();
 
 /* =========== Re-pairing retry config ========== */
 const MAX_REPAIR_ATTEMPTS = 3;

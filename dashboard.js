@@ -315,7 +315,7 @@ app.get('/events', (req, res) => {
   req.on('close', () => clients.delete(res));
 });
 
-export function startDashboard(port = 5000) {
+export function startDashboard(port = process.env.PORT || 3000) {
   server.listen(port, '0.0.0.0', () => {
     console.log(`✓ Dashboard running at http://0.0.0.0:${port}`);
   });

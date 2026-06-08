@@ -23,12 +23,12 @@ name = "Start application"
 author = "agent"
 
 [workflows.workflow.metadata]
-outputType = "webview"
+outputType = "console"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "npm start"
-waitForPort = 5000
+waitForPort = 3000
 
 [userenv]
 
@@ -38,6 +38,10 @@ BOT_NUMBER = "9647844320011"
 [userenv.development]
 
 [userenv.production]
+
+[[ports]]
+localPort = 3000
+externalPort = 3000
 
 [[ports]]
 localPort = 5000
