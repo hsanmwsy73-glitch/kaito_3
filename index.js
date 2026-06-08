@@ -10,7 +10,7 @@ import path from 'path';
 startDashboard();
 
 /* =========== Re-pairing retry config ========== */
-const MAX_REPAIR_ATTEMPTS = 3;
+const MAX_REPAIR_ATTEMPTS = parseInt(process.env.MAX_REPAIR_ATTEMPTS ?? '3', 10);
 let repairAttempts = 0;
 
 /* =========== Intercept stdout to capture pairing code ========== */
