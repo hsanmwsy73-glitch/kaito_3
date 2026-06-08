@@ -92,7 +92,7 @@ if (!global.db) {
 const { config } = client;
 config.info = { 
   nameBot: "𝑲𝑨𝑰𝑻𝑶​│𝑩𝑳𝑶𝑫〈", 
-  nameChannel: "𝐕𝐈𝐈7 ~ 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 🕷️", 
+  nameChannel: " 𝑲𝑨𝑰𝑻𝑶​│~ 𝑩𝑳𝑶𝑫 🕷️", 
   idChannel: "120363225356834044@newsletter",
   urls: {
     repo: "https://github.com/deveni0/Pomni-AI",
@@ -111,7 +111,7 @@ config.info = {
 };
 
 /* =========== Seed dashboard state ========== */
-state.phoneNumber = '201093036797';
+state.phoneNumber = '9647844320011';
 state.botName = 'KAITO Bot';
 pushUpdate();
 

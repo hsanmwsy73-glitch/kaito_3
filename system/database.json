@@ -5,5 +5,7 @@
   "users": {
     "963934149274@s.whatsapp.net": {}
   },
-  "dev": false
+  "dev": false,
+  "ownerOnly": true,
+  "noSub": false
 }
