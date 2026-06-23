@@ -1,4 +1,4 @@
-iـاort { Client } from 'meowsab';
+import { Client } from 'meowsab';
 import { group, access } from "./system/control.js";
 import UltraDB from "./system/UltraDB.js";
 import sub from './sub.js';
@@ -144,6 +144,20 @@ for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP']) {
     wipeSession();
   }
 })();
+
+/* =========== Reset-pairing hook (callable from plugins) ========== */
+global.resetPairing = () => {
+  if (state.status !== 'failed') return false;
+  repairAttempts = 0;
+  state.repairAttempts = 0;
+  wipeSession();
+  state.status = 're-pairing';
+  state.pairingCode = null;
+  pushUpdate();
+  console.log('[Bot] Owner triggered reset-pairing — retrying...');
+  setTimeout(() => client.start(), 1500);
+  return true;
+};
 
 /* =========== Start ========== */
 client.start();
