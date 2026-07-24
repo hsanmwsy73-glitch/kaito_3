@@ -26,7 +26,7 @@ const handler = async (m, { conn }) => {
     if (!success) {
         const penalty = Math.floor(stealAmount / 2);
         userSender.xp = Math.max(0, (userSender.xp || 0) - penalty);
-        const pic = await conn.profilePictureUrl(m.sender, 'image').catch(() => 'https://files.catbox.moe/sm8sye.jpg);
+        const pic = await conn.profilePictureUrl(m.sender, 'image').catch(() => 'https://files.catbox.moe/sm8sye.jpg');
         await conn.sendMessage(m.chat, {
             image: { url: pic },
             caption: `╭─┈─┈─⟞🚨⟝─┈─┈─╮

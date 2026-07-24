@@ -77,6 +77,7 @@ const access = async (msg, checkType, time) => {
         error: `*♡❌ الأمر فيه خطأ، كلم المطورين ❌♡*\n⊱⋅ ──────────── ⋅⊰\n*_اكتب " .المطور " عشان يبعتلك رقم المطور_*`
     };
     
+    const conn = msg.client ? await msg.client() : null;
     if (conn && messages[checkType]) {
         await conn.msgUrl(msg.chat, messages[checkType], {
             img: "https://files.catbox.moe/sm8sye.jpg",

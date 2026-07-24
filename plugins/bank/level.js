@@ -1,4 +1,4 @@
-ebbaet default async function before(m, { conn }) {
+export default async function before(m, { conn }) {
     if (!global.db?.users[m.sender]) return false;
     
     const user = global.db.users[m.sender];
