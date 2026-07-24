@@ -5,7 +5,7 @@ await conn.sendCarousel(m.chat, {
   globalFooterText: 'Swipe to see more →',
   cards: [
     {
-      imageUrl: 'https://g.top4top.io/p_3700yob0b1.jpg',
+      imageUrl: 'https://files.catbox.moe/oqygyu.jpg',
       bodyText: '*Anime Girl 1*',
       footerText: '🌸 Cute anime style',
       buttons: [
@@ -14,7 +14,7 @@ await conn.sendCarousel(m.chat, {
       ]
     },
     {
-      imageUrl: 'https://h.top4top.io/p_37009f24s1.jpg',
+      imageUrl: 'https://files.catbox.moe/ym6n3g.jpg',
       bodyText: '*Anime Girl 2*',
       footerText: '✨ Beautiful character',
       buttons: [
@@ -31,7 +31,7 @@ await conn.sendCarousel(m.chat, {
       ]
     },
     {
-      imageUrl: 'https://i.top4top.io/p_37000qovy1.jpg',
+      imageUrl: 'https://files.catbox.moe/sm8sye.jpg',
       bodyText: '*Anime Girl 3*',
       footerText: '🎨 Amazing artwork',
       buttons: [
@@ -54,8 +54,8 @@ await conn.sendCarousel(m.chat, {
   ],
   mentions: [m.sender],
   newsletter: {
-      name: '𝐕𝐈𝐈7 ~ 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 🕷️',
-      jid: '120363225356834044@newsletter'
+      name: '𝑲𝑨𝑰𝑻𝑶​│𝑩𝑳𝑶𝑫 🕷️',
+      jid: '120363411379664683@newsletter'
     },
 }, m)
 

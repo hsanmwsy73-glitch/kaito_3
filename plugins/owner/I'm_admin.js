@@ -11,3 +11,4 @@ handler.owner = true
 handler.botAdmin = true 
 
 export default handler;
+ 

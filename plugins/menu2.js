@@ -31,12 +31,12 @@ const context = (jid, img) => ({
     isForwarded: true,
     forwardingScore: 1,
     forwardedNewsletterMessageInfo: {
-        newsletterJid: '120363225356834044@newsletter',
-        newsletterName: '𝐕𝐈𝐈7 ~ 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 🕷️',
+        newsletterJid: '120363411379664683@newsletter',
+        newsletterName: '𝑲𝑨𝑰𝑻𝑶​│𝑩𝑳𝑶𝑫 🕷️',
         serverMessageId: 0
     },
     externalAdReply: {
-        title: "𝐏𝐎𝐌𝐍𝐈-𝐀𝐈 🎪 | 𝐁𝐨𝐭 𝐢𝐬 𝐛𝐮𝐢𝐥𝐭 𝐨𝐧 𝐭𝐡𝐞 𝐖𝐒/𝐕𝐈𝐈 𝐟𝐫𝐚𝐦𝐞𝐰𝐨𝐫𝐤",
+        title: "𝑲𝑨𝑰𝑻𝑶-𝑨𝑰 🎪 | 𝐁𝐨𝐭 𝐢𝐬 𝐛𝐮𝐢𝐥𝐭 𝐨𝐧 𝐭𝐡𝐞 𝐖𝐒/𝐕𝐈𝐈 𝐟𝐫𝐚𝐦𝐞𝐰𝐨𝐫𝐤",
         body: "𝚆𝚑𝚊𝚝𝚜𝙰𝚙𝚙 𝚋𝚘𝚝 𝚝𝚑𝚊𝚝 𝚒𝚜 𝚎𝚊𝚜𝚢 𝚝𝚘 𝚖𝚘𝚍𝚒𝚏𝚢 𝚊𝚗𝚍 𝚟𝚎𝚛𝚢 𝚏𝚊𝚜𝚝",
         thumbnailUrl: img,
         sourceUrl: '',
@@ -58,7 +58,7 @@ const uptimeFormatted = `${String(hours).padStart(2, '0')}:${String(minutes).pad
     
     if (!selected && !args[0]) {
         const sections = [{
-            title: "🌳 ~ الاقـسـام ~ 🪾",
+            title: "🌳 ~ القـسـم ~ 🪾",
             rows: CATEGORIES.map(c => ({
                 title: `${c[0]} ~ ${c[1]} ${c[3]}`,
                 description: `اضغط لعرض أوامر قسم ${c[1]}`,
@@ -77,7 +77,7 @@ const uptimeFormatted = `${String(hours).padStart(2, '0')}:${String(minutes).pad
 > *_اختار قسم من القائمة عشان يبعتلك اوامر القسم_*`;
         
         await conn.sendButtonNormal(m.chat, {
-            media: { url: "https://i.pinimg.com/originals/e2/21/20/e221203f319df949ee65585a657501a2.jpg" },
+            media: { url: "https://files.catbox.moe/acgkvt.gif" },
             mediaType: 'image',
             caption: menuText,
             buttons: [{
@@ -89,8 +89,8 @@ const uptimeFormatted = `${String(hours).padStart(2, '0')}:${String(minutes).pad
             }],
             mentions: [m.sender],
             newsletter: {
-                name: '𝐕𝐈𝐈7 ~ 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 🕷️',
-                jid: '120363225356834044@newsletter'
+                name: '𝑲𝑨𝑰𝑻𝑶​│𝑩𝑳𝑶𝑫 🕷️',
+                jid: '120363411379664683@newsletter'
             }
         }, global.reply_status);
         return;
@@ -120,10 +120,10 @@ const uptimeFormatted = `${String(hours).padStart(2, '0')}:${String(minutes).pad
 ${cmdsList}
 
 ╭─┈─┈─┈─⟞${cat[3]}⟝─┈─┈─┈─╮
-┃ *⌯︙𝐕𝐈𝐈7 ~ ${bot?.config?.info?.nameBot || 'POMNI-AI'}*
+┃ *⌯KAI7 ~ ${bot?.config?.info?.nameBot || '𝑲𝑨𝑰𝑻𝑶-𝑨𝑰'}*
 ╰─┈─┈─┈─⟞${cat[3]}⟝─┈─┈─┈─╯
 > *رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا*`.trim(), contextInfo: context(m.sender, getImg(bot)) }, { quoted: m });
 }
 
-handler.command =['ي عاق.'];
+handler.command =['القسم'];
 export default handler;

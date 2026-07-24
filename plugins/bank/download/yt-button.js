@@ -14,8 +14,8 @@ const handler = async (m, { conn, text }) => {
             { name: "quick_reply", params: { display_text: "🎬 ╎ تـحـمـيـل فـيـديـو", id: `.يوتيوب ${url}` } }
         ],
         mentions: [m.sender],
-        newsletter: { name: "𝐕𝐈𝐈7 ~ 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 🕷️", jid: "120363225356834044@newsletter" },
-        interactiveConfig: { buttons_limits: 10, list_title: "Pomni 🎀", button_title: "Pomni 🎀", canonical_url: url }
+        newsletter: { name: "𝑲𝑨𝑰𝑻𝑶​│𝑩𝑳𝑶𝑫 🕷️", jid: "120363411379664683@newsletter" },
+        interactiveConfig: { buttons_limits: 10, list_title: "𝑲𝑨𝑰𝑻𝑶⛩️       ", button_title: "𝑲𝑨𝑰𝑻𝑶 ⛩️", canonical_url: url }
     }, m);
 };
 

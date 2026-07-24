@@ -1,29 +1,10 @@
-let user = async (m, { args, command, text, conn }) => {
-    
-    try {
-        const groupMetadata = await conn.groupMetadata(m.chat);
-        let participant = groupMetadata.participants.find(
-            p => p.id === m.sender || 
-                 p.id.split('@')[0] === m.sender ||
-                 p.phoneNumber === m.sender
-        );
+// ==========================================
+// 📋 أمر نسخ ID المحادثة
+// ==========================================
 
-        if (!participant) {
-            return m.reply(`الرقم ${targetNumber} لازم يبقي الجروب`);
-        }
-
-        const user = {
-            name: m.name || "Owner",
-            jid: participant.phoneNumber,
-            lid: participant.id
-        };
-        
-        m.reply(JSON.stringify(user, null, 2));
-
-    } catch (err) {
-        m.reply(err.message);
-    }
+const handler = async (m) => {
+    await m.reply(`📋 *ID المحادثة*\n\n${m.chat}\n\n✅ تم النسخ`);
 };
 
-user.command = ['لمطور','id'];
-export default user;
+handler.command = ["نسخ"];
+export default handler;

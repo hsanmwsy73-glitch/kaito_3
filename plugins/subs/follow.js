@@ -1,7 +1,7 @@
 const run = async (m, { conn, bot, args, text }) => {
   const sub = global.subBots;
   if (!sub) return m.reply("❌ نـظـام الـبـوتـات الـفـرعـيـه غير متاح");
-  if (!text) return m.reply(`~ اعمل فولو لقناة مثال: \n- .فولو https://whatsapp.com/channel/0029VaQim2bAu3aPsRVaDq3v`);
+  if (!text) return m.reply(`~ اعمل فولو لقناة مثال: \n- .فولو https://whatsapp.com/channel/0029VbDDlh74IBhMBDrE3f3o`);
 
   const urlParts = text.trim().split("/");
   const channelInvite = urlParts[urlParts.length - 1];

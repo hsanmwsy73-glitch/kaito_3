@@ -28,8 +28,8 @@ const handler = async (m, { conn, command, text }) => {
       isForwarded: true,
       forwardingScore: 1,
       forwardedNewsletterMessageInfo: {
-        newsletterJid: '120363225356834044@newsletter',
-        newsletterName: '𝐕𝐈𝐈7 ~ 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 🕷️',
+        newsletterJid: '120363411379664683@newsletter',
+        newsletterName: '𝑲𝑨𝑰𝑻𝑶​│𝑩𝑳𝑶𝑫 🕷️',
         serverMessageId: 0
       },
       externalAdReply: {

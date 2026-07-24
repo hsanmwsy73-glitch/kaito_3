@@ -15,31 +15,31 @@ const ff = async (m, { conn, text, command }) => {
     const jid = await m.lid2jid(target);
     const user = global.db.users[jid] || {};
     
-    const isUnban = command === "فك_حظر" || command === "الغاء_الحظر";
+    const isUnban = command === "فك_تشفير" || command === "فك_تشفير";
     
     if (isUnban) {
         if (user.banned) {
             delete user.banned;
             await conn.sendMessage(m.chat, { 
-                text: `*✅ ~تم فك حظر @${target.split('@')[0]}*\n> *_دلوقت يقدر يكلم البوت عادي_*`, 
+                text: `*✅ ~الغاء فك تشفيرو @${target.split('@')[0]}*\n> *_دلوقت يقدر يكلم البوت عادي_*`, 
                 mentions: [target] 
             });
         } else {
-            m.reply(`*❌ ~هذا المستخدم ليس محظوراً*`);
+            m.reply(`*❌ ~هذا المستخدم ليس مشفر*`);
         }
         return;
     }
     
     user.banned = true;
     await conn.sendMessage(m.chat, { 
-        text: `*✅ ~تم حظر @${target.split('@')[0]}*\n> *_مش هيعرف يكلم البوت تاني_*`, 
+        text: `*✅ ~ تم تشفيرو  @${target.split('@')[0]}*\n> *_مش هيعرف يكلم البوت تاني_*`, 
         mentions: [target] 
     });
 };
 
-ff.usage = ["حظر", "فك_حظر"];
+ff.usage = ["فك_تشفير", "تشفير"];
 ff.category = "owner";
-ff.command = ["حظر", "فك_حظر", "الغاء_الحظر"];
+ff.command = ["فك_تشفير", "فك_التشفير", "تشفير"];
 ff.owner = true;
 
 export default ff;

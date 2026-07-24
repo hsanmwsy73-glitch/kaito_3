@@ -1,7 +1,7 @@
 export default async function before(m, { conn , bot }) {
   const triggers = {
-    "ڤينوم": ["📂", "🗃️", "☕", "🪐", "🐍"],
-    "ڤيني": ["🎼", "🎪", "🎨", "🎯", "🎲"]
+    "كايتو": ["📂", "🗃️", "☕", "🪐", "🐍"],
+    "كيت": ["🎼", "🎪", "🎨", "🎯", "🎲"]
   };
 
   const emojis = triggers[m.text];

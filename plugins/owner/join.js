@@ -9,7 +9,7 @@ const handler = async (m, { conn, text, bot }) => {
   if (!text) return m.reply("❌ أرسل رابط جروب واتساب");
   if (!text.includes("https://chat.whatsapp.com/")) return m.reply("❌ رابط واتساب فقط");
 
-  m.react("📂");
+  m.react("👍");
   await conn.groupJoin(text);
   m.reply("✅ تم الدخول");
 };

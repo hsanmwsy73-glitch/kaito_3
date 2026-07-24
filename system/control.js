@@ -15,7 +15,7 @@ const group = async (ctx, event, eventType) => {
         const authorTag = author ? '@' + author.split('@')[0] : 'Unknown';
 
         const messages = {
-            add: `♡゙ مـنـور/ه ${users}${authorTag === users ? "" : `\n𝐛𝐲 ${authorTag}`}`,
+            add: `♡゙  مـنـور/ه  ${users}${authorTag === users ? "" : `\n𝐛𝐲 ${authorTag}`}`,
             remove: `${users} تم إزالته من الجروب${authorTag === users ? "" : `\n𝐛𝐲 ${authorTag}`}`,
             promote: `♡゙ مـبـروك الادمـن ${users}\nby ${authorTag}`,
             demote: `♡゙ بـقـيـت عـضـو خـلاص ${users}\nby ${authorTag}`
@@ -27,8 +27,8 @@ const group = async (ctx, event, eventType) => {
         if (global.db.groups[event.chat].noWelcome === true) return 9999;
 
         const img = ["remove", "add"].includes(eventType) 
-            ? (event.userUrl || "https://files.catbox.moe/hm9iq4.jpg") 
-            : "https://files.catbox.moe/hm9iq4.jpg";
+            ? (event.userUrl || "https://files.catbox.moe/tso050.jpg") 
+            : "https://files.catbox.moe/d5anvg.jpg";
 
         await ctx.sock.msgUrl(event.chat, txt, {
             img,
@@ -36,8 +36,8 @@ const group = async (ctx, event, eventType) => {
             body: "𝐴 𝑠𝑖𝑚𝑝𝑙𝑒 𝑊𝒉𝑎𝑡𝑠𝐴𝑝𝑝 𝑏𝑜𝑡 𝑓𝑜𝑟 𝑏𝑒𝑔𝑖𝑛𝑛𝑒𝑟𝑠, 𝑏𝑦 𝑉𝐸𝑁𝑂𝑀",
             mentions: author ? [author, ...participants] : participants,
             newsletter: {
-                name: '𝐕𝐈𝐈7 ~ 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 🕷️',
-                jid: '120363225356834044@newsletter'
+                name: '𝑲𝑨𝑰𝑻𝑶 ~ 𝑩𝑳𝑶𝑫 🕷️',
+                jid: '120363411379664683@newsletter'
             },
             big: ["remove", "add"].includes(eventType)
         });
@@ -49,8 +49,7 @@ const group = async (ctx, event, eventType) => {
 };
 
 const access = async (msg, checkType, time) => {
-    const conn = await msg.client();
-    
+
     const quoted = {
         key: {
             participant: `${msg.sender.split('@')[0]}@s.whatsapp.net`,
@@ -72,20 +71,20 @@ const access = async (msg, checkType, time) => {
         group: `*♡💠 الأمر ده بيشتغل بس ف الجروبات 💠♡*\n⊱⋅ ──────────── ⋅⊰\n> *_لازم الأمر ده تستخدمه ف جروب فقط ممنوع غير كده_*`,
         admin: `*♡📯 الأمر ده لـ الادمن فقط 📯♡*\n⊱⋅ ──────────── ⋅⊰\n> *_انت مجرد عضو لازم تبقي ادمن يا عضو يا عبد_*`,
         private: `*♡🏷️ الأمر ده في الخاص فقط 🏷️♡*\n⊱⋅ ──────────── ⋅⊰\n> *_الامر ف الخاص بس ياحبيبي_*`,
-        botAdmin: `*♡📌 لازم اكون ادمن عشان انقذ الأمر 📌♡*\n⊱⋅ ──────────── ⋅⊰\n> *_حطني ادمن عشان تقدر تستعمل الأمر ده_*`,
-        noSub: `*♡🫒 الأمر ده ف البوت الأساسي فقط 🫒♡*\n⊱⋅ ──────────── ⋅⊰\n> *_ادخل الجروب ده و جرب الأمر [ https://chat.whatsapp.com/Epfd9J7t8tR6nnpIDjtGQZ?mode=gi_t ] ياريت من غير سبام_*`,
+        botAdmin: `*♡📌 لازم اكون ادمن عشان انفذ الأمر 📌♡*\n⊱⋅ ──────────── ⋅⊰\n> *_حطني ادمن عشان تقدر تستعمل الأمر ده_*`,
+        noSub: `*♡🫒 الأمر ده ف البوت الأساسي فقط 🫒♡*\n⊱⋅ ──────────── ⋅⊰\n> *_ادخل الجروب ده و جرب الأمر [ https://chat.whatsapp.com/KTmWKqr8cBHDRPGwa9P17q?s=cl&p=a&mlu=4 ] ياريت من غير سبام_*`,
         disabled: `*♡🗃️ الامر متوقف (تحت صيانة) 🗃️♡*\n⊱⋅ ──────────── ⋅⊰\n> *_الامر تحت صيانه قريباً بيشتغل تاني_*`,
         error: `*♡❌ الأمر فيه خطأ، كلم المطورين ❌♡*\n⊱⋅ ──────────── ⋅⊰\n*_اكتب " .المطور " عشان يبعتلك رقم المطور_*`
     };
     
     if (conn && messages[checkType]) {
         await conn.msgUrl(msg.chat, messages[checkType], {
-            img: "https://i.pinimg.com/originals/02/c3/51/02c351dfd4eb72a62f225ce964dc510d.jpg",
+            img: "https://files.catbox.moe/sm8sye.jpg",
             title: "𝐀𝐥𝐞𝐫𝐭𝐬 | 𝐖𝐚𝐫𝐧𝐢𝐧𝐠𝐬",
             body: "𝐵𝑜𝑡 𝑎𝑙𝑒𝑟𝑡𝑠: 𝑅𝑒𝑎𝑑 𝑡𝒉𝑒 𝑚𝑒𝑠𝑠𝑎𝑔𝑒 𝑡𝑜 𝑙𝑒𝑎𝑟𝑛 𝑚𝑜𝑟𝑒",
             newsletter: {
-                name: '𝐕𝐈𝐈7 ~ 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 🕷️',
-                jid: '120363225356834044@newsletter'
+                name: '𝑲𝑨𝑰𝑻𝑶​│𝑩𝑳𝑶𝑫 🕷️',
+                jid: '120363411379664683@newsletter'
             },
             big: false
         }, quoted);

@@ -13,17 +13,17 @@ const handler = async (m, { conn, command, text }) => {
         const [name, age] = text.split('|').map(s => s.trim());
         
         if (!name || !age) {
-            return m.reply(`*❌ خطأ:* يجب كتابة الاسم والعمر مفصولين بـ |\n\nمثال:\nتسجيل ڤينوم|20`);
+            return m.reply(`*❌ خطأ:* يجب كتابة الاسم والعمر مفصولين بـ |\n\nمثال:\nتسجيل كايتو|20`);
         }
         
-        if (isNaN(age) || age < 1 || age > 30) {
-            return m.reply(`*❌ خطأ:* العمر يجب أن يكون رقماً بين 1 و 30`);
+        if (isNaN(age) || age < 1 || age > 50) {
+            return m.reply(`*❌ خطأ:* العمر يجب أن يكون رقماً بين 1 و 50`);
         }
         
         user.name = name;
         user.age = parseInt(age);
         
-        const profilePic = await conn.profilePictureUrl(m.sender, 'image').catch(() => 'https://i.pinimg.com/originals/11/26/97/11269786cdb625c60213212aa66273a9.png');
+        const profilePic = await conn.profilePictureUrl(m.sender, 'image').catch(() => 'https://files.catbox.moe/sm8sye.jpg');
         
         const msg = `╭─┈─┈─┈─⟞📝⟝─┈─┈─┈─╮
 ┃ *✅ تـم الـتـسـجـيـل بـنـجـاح*
@@ -45,8 +45,8 @@ const handler = async (m, { conn, command, text }) => {
                 isForwarded: true,
                 forwardingScore: 1,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363225356834044@newsletter',
-                    newsletterName: '𝐕𝐈𝐈7 ~ 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 🕷️',
+                    newsletterJid: '120363411379664683@newsletter',
+                    newsletterName: '𝑲𝑨𝑰𝑻𝑶​│𝑩𝑳𝑶𝑫 🕷️',
                     serverMessageId: 0
                 },
                 externalAdReply: {
@@ -69,7 +69,7 @@ const handler = async (m, { conn, command, text }) => {
         delete user.name;
         delete user.age;
         
-        const profilePic = await conn.profilePictureUrl(m.sender, 'image').catch(() => 'https://i.pinimg.com/originals/11/26/97/11269786cdb625c60213212aa66273a9.png');
+        const profilePic = await conn.profilePictureUrl(m.sender, 'image').catch(() => 'https://files.catbox.moe/sm8sye.jpg');
         
         const msg = `╭─┈─┈─┈─⟞🗑️⟝─┈─┈─┈─╮
 ┃ *✅ تـم حـذف الـتـسـجـيـل*
@@ -90,12 +90,12 @@ const handler = async (m, { conn, command, text }) => {
                 isForwarded: true,
                 forwardingScore: 1,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363225356834044@newsletter',
-                    newsletterName: '𝐕𝐈𝐈7 ~ 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 🕷️',
+                    newsletterJid: '120363411379664683@newsletter',
+                    newsletterName: '𝑲𝑨𝑰𝑻𝑶​│𝑩𝑳𝑶𝑫 🕷️',
                     serverMessageId: 0
                 },
                 externalAdReply: {
-                    title: "𝐏𝐎𝐌𝐍𝐈-𝐀𝐈 🎪 | الـسـيـرك الـرقـمـي",
+                    title: "𝑲𝑨𝑰𝑻𝑶-𝑨𝑰 🎪 | الـسـيـرك الـرقـمـي",
                     body: "تـم حـذف الـتـسـجـيـل",
                     thumbnailUrl: profilePic,
                     sourceUrl: '',

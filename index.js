@@ -1,47 +1,56 @@
-import { Client } from 'meowsab';
+import { Client } from "meowsab";
 import { group, access } from "./system/control.js";
 import UltraDB from "./system/UltraDB.js";
-import sub from './sub.js';
-import { startDashboard, state, pushUpdate } from './dashboard.js';
-import fs from 'fs';
-import path from 'path';
+import sub from "./sub.js";
+import { startDashboard, state, pushUpdate } from "./dashboard.js";
+import fs from "fs";
+import path from "path";
+global.isPublic = true;
 
 /* =========== Dashboard ========== */
 startDashboard();
 
 /* =========== Re-pairing retry config ========== */
-const MAX_REPAIR_ATTEMPTS = parseInt(process.env.MAX_REPAIR_ATTEMPTS ?? '3', 10);
+const MAX_REPAIR_ATTEMPTS = parseInt(
+  process.env.MAX_REPAIR_ATTEMPTS ?? "3",
+  10,
+);
 let repairAttempts = 0;
 
 /* =========== Intercept stdout to capture pairing code ========== */
-const _stripAnsi = (str) => str.replace(/\x1B\[[0-9;]*[mGKHF]/g, '').replace(/\x1B\][^\x07]*\x07/g, '');
+const _stripAnsi = (str) =>
+  str.replace(/\x1B\[[0-9;]*[mGKHF]/g, "").replace(/\x1B\][^\x07]*\x07/g, "");
 const _origWrite = process.stdout.write.bind(process.stdout);
 process.stdout.write = (chunk, ...rest) => {
-  const raw = typeof chunk === 'string' ? chunk : chunk.toString();
+  const raw = typeof chunk === "string" ? chunk : chunk.toString();
   const line = _stripAnsi(raw);
   const match = line.match(/Pairing\s*Code\s+([A-Z0-9]{4,})/i);
   if (match) {
     state.pairingCode = match[1];
-    state.status = 'connecting';
+    state.status = "connecting";
     pushUpdate();
   }
   if (/Session logged out/i.test(line)) {
     if (repairAttempts >= MAX_REPAIR_ATTEMPTS) {
-      state.status = 'failed';
+      state.status = "failed";
       state.pairingCode = null;
       state.repairAttempts = repairAttempts;
       pushUpdate();
-      console.error(`[Bot] Re-pairing limit reached (${MAX_REPAIR_ATTEMPTS} attempts). Giving up to prevent endless restart loop.`);
+      console.error(
+        `[Bot] Re-pairing limit reached (${MAX_REPAIR_ATTEMPTS} attempts). Giving up to prevent endless restart loop.`,
+      );
     } else {
       repairAttempts += 1;
-      const sessionDir = path.resolve('./session');
+      const sessionDir = path.resolve("./session");
       fs.rmSync(sessionDir, { recursive: true, force: true });
       fs.mkdirSync(sessionDir, { recursive: true });
-      state.status = 're-pairing';
+      state.status = "re-pairing";
       state.pairingCode = null;
       state.repairAttempts = repairAttempts;
       pushUpdate();
-      console.log(`[Bot] Re-pairing attempt ${repairAttempts}/${MAX_REPAIR_ATTEMPTS}...`);
+      console.log(
+        `[Bot] Re-pairing attempt ${repairAttempts}/${MAX_REPAIR_ATTEMPTS}...`,
+      );
       setTimeout(() => {
         client.start();
       }, 1500);
@@ -52,30 +61,34 @@ process.stdout.write = (chunk, ...rest) => {
 
 /* =========== Client ========== */
 const client = new Client({
-  phoneNumber: '9647844320011', // Bot number
+  phoneNumber: "9647844320011", // Bot number
   prefix: [".", "/", "!"],
-  fromMe: false, 
+  fromMe: false,
   owners: [
-  // Owner 1
-    { name:"kaito", lid: "247579682029763@lid", jid: "963934149274@s.whatsapp.net" },
-  // Owner 2
-    { name: "", lid: "221307316789354@lid", jid: "@s.whatsapp.net" },
-  // Owner 3
+    // Owner 1
+    {
+      name: "kaito",
+      lid: "247579682029763@lid",
+      jid: "963934149274@s.whatsapp.net",
+    },
+    // Owner 2
+    { name: "", lid: "221307316789354@lid", jid: "201093036797@s.whatsapp.net" },
+    // Owner 3
     { name: "", jid: "@s.whatsapp.net", lid: "50414477168824@lid" },
-  // Owner 4 
-   { name: "", jid: "@s.whatsapp.net", lid: "51664513925368@lid" }
+    // Owner 4
+    { name: "", jid: "@s.whatsapp.net", lid: "51664513925368@lid" },
   ],
   settings: { noWelcome: false },
-  commandsPath: './plugins',
+  commandsPath: "./plugins",
   onConnected: () => {
     repairAttempts = 0;
-    state.status = 'connected';
+    state.status = "connected";
     state.connectedAt = new Date().toISOString();
     state.repairAttempts = 0;
     pushUpdate();
   },
   onDisconnected: () => {
-    state.status = 'disconnected';
+    state.status = "disconnected";
     pushUpdate();
   },
 });
@@ -85,46 +98,46 @@ client.onCommandAccess(access);
 
 /* =========== Database ========== */
 if (!global.db) {
-    global.db = new UltraDB();
+  global.db = new UltraDB();
 }
 
 /* =========== Config ========== */
 const { config } = client;
-config.info = { 
-  nameBot: "𝑲𝑨𝑰𝑻𝑶​│𝑩𝑳𝑶𝑫〈", 
-  nameChannel: " 𝑲𝑨𝑰𝑻𝑶​│~ 𝑩𝑳𝑶𝑫 🕷️", 
+config.info = {
+  nameBot: "𝑲𝑨𝑰𝑻𝑶​│𝑩𝑳𝑶𝑫〈",
+  nameChannel: " 𝑲𝑨𝑰𝑻𝑶​│~ 𝑩𝑳𝑶𝑫 🕷️",
   idChannel: "120363411379664683@newsletter",
   urls: {
     repo: "https://github.com/deveni0/Pomni-AI",
     api: "https://emam-api.web.id",
-    channel: "https://whatsapp.com/channel/0029VbDDlh74IBhMBDrE3f3o"
+    channel: "https://whatsapp.com/channel/0029VbDDlh74IBhMBDrE3f3o",
   },
-  copyright: { 
-    pack: '𝑲𝑨𝑰𝑻𝑶 𝑩𝑶𝑻', 
-    author: '𝑲𝑨𝑰𝑻𝑶 𝑲𝑨𝑰'
+  copyright: {
+    pack: "𝑲𝑨𝑰𝑻𝑶 𝑩𝑶𝑻",
+    author: "𝑲𝑨𝑰𝑻𝑶 𝑲𝑨𝑰",
   },
   images: [
-    "https://i.pinimg.com/originals/11/26/97/11269786cdb625c60213212aa66273a9.png",
-    "https://i.pinimg.com/originals/e2/21/20/e221203f319df949ee65585a657501a2.jpg",
-    "https://i.pinimg.com/originals/bb/77/0f/bb770fad66a634a6b3bf93e9c00bf4e5.jpg"
-  ]
+    "https://files.catbox.moe/z1lxci.jpg",
+    "https://files.catbox.moe/avfavn.jpg",
+    "https://files.catbox.moe/sm8sye.jpg",
+  ],
 };
 
 /* =========== Seed dashboard state ========== */
-state.phoneNumber = '9647844320011';
-state.botName = 'KAITO Bot';
+state.phoneNumber = "9647844320011";
+state.botName = "KAITO Bot";
 pushUpdate();
 
 /* =========== Wipe stale session on exit ========== */
 function wipeSession() {
   try {
-    const sessionDir = path.resolve('./session');
+    const sessionDir = path.resolve("./session");
     fs.rmSync(sessionDir, { recursive: true, force: true });
     fs.mkdirSync(sessionDir, { recursive: true });
   } catch (_) {}
 }
 
-for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP']) {
+for (const sig of ["SIGINT", "SIGTERM", "SIGHUP"]) {
   process.on(sig, () => {
     wipeSession();
     process.exit(0);
@@ -133,28 +146,30 @@ for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP']) {
 
 /* =========== Validate session before connecting ========== */
 (function validateSession() {
-  const credsPath = path.resolve('./session/creds.json');
+  const credsPath = path.resolve("./session/creds.json");
   try {
     if (!fs.existsSync(credsPath)) return;
-    const raw = fs.readFileSync(credsPath, 'utf8').trim();
-    if (!raw) throw new Error('empty');
+    const raw = fs.readFileSync(credsPath, "utf8").trim();
+    if (!raw) throw new Error("empty");
     JSON.parse(raw);
   } catch (_) {
-    console.log('[Bot] Stale or invalid session detected — wiping before connect.');
+    console.log(
+      "[Bot] Stale or invalid session detected — wiping before connect.",
+    );
     wipeSession();
   }
 })();
 
 /* =========== Reset-pairing hook (callable from plugins) ========== */
 global.resetPairing = () => {
-  if (state.status !== 'failed') return false;
+  if (state.status !== "failed") return false;
   repairAttempts = 0;
   state.repairAttempts = 0;
   wipeSession();
-  state.status = 're-pairing';
+  state.status = "re-pairing";
   state.pairingCode = null;
   pushUpdate();
-  console.log('[Bot] Owner triggered reset-pairing — retrying...');
+  console.log("[Bot] Owner triggered reset-pairing — retrying...");
   setTimeout(() => client.start(), 1500);
   return true;
 };
@@ -171,20 +186,18 @@ setTimeout(async () => {
   }
 }, 2000);
 
-
 /* =========== Catch Errors ========== */
-process.on('uncaughtException', (e) => {
-    if (e.message.includes('rate-overlimit')) return;
-    console.error('Uncaught Exception:', e.message);
-    wipeSession();
-    process.exit(1);
+process.on("uncaughtException", (e) => {
+  if (e.message.includes("rate-overlimit")) return;
+  console.error("Uncaught Exception:", e.message);
+  wipeSession();
+  process.exit(1);
 });
 
-process.on('unhandledRejection', (err) => {
-    console.error('Unhandled Rejection:', err);
-    wipeSession();
+process.on("unhandledRejection", (err) => {
+  console.error("Unhandled Rejection:", err);
+  wipeSession();
 });
-
 
 /* 
 =========== Memory Monitor ========== 

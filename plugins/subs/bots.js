@@ -25,14 +25,14 @@ const run = async (m, { conn, bot }) => {
   text += `\n> *_✓ الـمـجـمـوع: ${bots.length}_*`;
 
   const { images } = bot.config.info;
-  const img = images?.[Math.floor(Math.random() * images.length)] || "https://i.pinimg.com/originals/e7/e3/0e/e7e30e4af3767d893ce7309563ced390.png";
+  const img = images?.[Math.floor(Math.random() * images.length)] || "https://files.catbox.moe/ym6n3g.jpg";
 
   await conn.sendMessage(m.chat, {
     text: text,
     mentions: mentions,
     contextInfo: {
       externalAdReply: {
-        title: "𝐏𝐎𝐌𝐍𝐈-𝐀𝐈 🎪 | 𝐁𝐨𝐭 𝐢𝐬 𝐛𝐮𝐢𝐥𝐭 𝐨𝐧 𝐭𝐡𝐞 𝐖𝐒/𝐕𝐈𝐈 𝐟𝐫𝐚𝐦𝐞𝐰𝐨𝐫𝐤",
+        title: "𝑲𝑨𝑰𝑻𝑶-𝑨𝑰 🎪 | 𝐁𝐨𝐭 𝐢𝐬 𝐛𝐮𝐢𝐥𝐭 𝐨𝐧 𝐭𝐡𝐞 𝐖𝐒/𝐕𝐈𝐈 𝐟𝐫𝐚𝐦𝐞𝐰𝐨𝐫𝐤",
         body: "𝚆𝚑𝚊𝚝𝚜𝙰𝚙𝚙 𝚋𝚘𝚝 𝚝𝚑𝚊𝚝 𝚒𝚜 𝚎𝚊𝚜𝚢 𝚝𝚘 𝚖𝚘𝚍𝚒𝚏𝚢 𝚊𝚗𝚍 𝚟𝚎𝚛𝚢 𝚏𝚊𝚜𝚝",
         thumbnailUrl: img,
         sourceUrl: '',

@@ -1,9 +1,9 @@
 let handler = async (m, { conn, bot }) => {
-  let watermark = 'VA';
+  let watermark = 'kaito';
   
   let quoted = {
     key: { fromMe: false, participant: '0@s.whatsapp.net', remoteJid: 'status@broadcast' },
-    message: { conversation: 'Pomni AI ❤️💙' }
+    message: { conversation: '𝑲𝑨𝑰𝑻𝑶-𝑨𝑰 ⛩️🖤' }
   };
   const num = bot.config.owners[0].jid.split("@")[0];
   let vcard = `BEGIN:VCARD
@@ -12,7 +12,7 @@ FN:${watermark}
 TEL;type=CELL;waid=${num}:+${num}
 END:VCARD`;
 
-  let img = 'https://i.pinimg.com/originals/e2/21/20/e221203f319df949ee65585a657501a2.jpg';
+  let img = 'https://files.catbox.moe/rjqb1q.gif';
   
   await conn.sendMessage(m.chat, {
     contacts: { displayName: watermark, contacts: [{ vcard }] },
@@ -21,7 +21,7 @@ END:VCARD`;
       externalAdReply: {
         title: '𝑇𝛨𝛯 𝛩𝑊𝛮𝛯𝑅',
         body: watermark,
-        sourceUrl: 'https://whatsapp.com/channel/0029Vb3UUKz3QxS3bgWmTc3x',
+        sourceUrl: 'https://whatsapp.com/channel/0029VbDDlh74IBhMBDrE3f3o',
         thumbnailUrl: img,
         mediaType: 1,
         showAdAttribution: true,

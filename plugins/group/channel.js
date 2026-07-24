@@ -34,7 +34,7 @@ const handler = async (m, { conn, text }) => {
     await conn.sendButton(m.chat, {
       imageUrl: img,
       bodyText: msg,
-      footerText: "VENi ~ VII7",
+      footerText: " 𝑲𝑨𝑰𝑻𝑶​│𝑩𝑳𝑶𝑫 ",
       buttons: [
         {
           name: "cta_copy",
@@ -53,7 +53,7 @@ const handler = async (m, { conn, text }) => {
         buttons_limits: 1,
         list_title: name,
         button_title: "Options",
-        canonical_url: "https://vxv-profile.vercel.app"
+        canonical_url: "https://vxv-profile.vercel.vercel"
       }
     }, global.reply_status)
 

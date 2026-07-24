@@ -9,13 +9,13 @@ const { data } = JSON.parse(res);
   caption: `# Boy 🚹`,
   buttons: [
 
-        { name: "cta_url", params: { display_text: "📎╎ قــنــاتــي ", url: "https://whatsapp.com/channel/0029Vb3UUKz3QxS3bgWmTc3x" } },
+        { name: "cta_url", params: { display_text: "📎╎ قــنــاتــي ", url: "https://whatsapp.com/channel/0029VbDDlh74IBhMBDrE3f3o" } },
 
   ], 
   mentions: [m.sender],
   newsletter: {
-      name: '𝐕𝐈𝐈7 ~ 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 🕷️',
-      jid: '120363225356834044@newsletter'
+      name: '𝑲𝑨𝑰𝑻𝑶​│𝑩𝑳𝑶𝑫 🕷️',
+      jid: '120363411379664683@newsletter'
     },
 }, global.reply_status)
 
@@ -32,8 +32,8 @@ return await conn.sendButtonNormal(m.chat, {
   ], 
   mentions: [m.sender],
   newsletter: {
-      name: '𝐕𝐈𝐈7 ~ 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 🕷️',
-      jid: '120363225356834044@newsletter'
+      name:'𝑲𝑨𝑰𝑻𝑶​│𝑩𝑳𝑶𝑫 🕷️',
+      jid: '120363411379664683@newsletter'
     },
 }, global.reply_status)
 

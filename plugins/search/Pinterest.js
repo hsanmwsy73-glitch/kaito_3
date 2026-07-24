@@ -32,8 +32,8 @@ async function test(m, { conn, bot, text }) {
       cards: cards,
       mentions: [m.sender],
       newsletter: {
-      name: '𝐕𝐈𝐈7 ~ 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 🕷️',
-      jid: '120363225356834044@newsletter'
+      name: '𝑲𝑨𝑰𝑻𝑶​│𝑩𝑳𝑶𝑫 🕷️',
+      jid: '120363411379664683@newsletter'
     },
     }, reply_status);
     
