@@ -38,7 +38,7 @@ let handler = async (m, { conn, text, command }) => {
       mentions: [m.sender],
       newsletter: {
         name: '𝑲𝑨𝑰𝑻𝑶​│𝑩𝑳𝑶𝑫 🕷️',
-        jid: '120363411379664683@𝒏𝒆𝒘𝒔𝒍𝒆𝒕𝒕𝒆𝒓'
+        jid: '120363411379664683@newsletter'
       },
     }, m)
   }
@@ -71,7 +71,7 @@ let handler = async (m, { conn, text, command }) => {
       mentions: [m.sender],
       newsletter: {
         name: '𝑲𝑨𝑰𝑻𝑶​│𝑩𝑳𝑶𝑫 🕷️',
-        jid: '120363411379664683@𝒏𝒆𝒘𝒔𝒍𝒆𝒕𝒕𝒆𝒓'
+        jid: '120363411379664683@newsletter'
       },
     }, m)
   }
