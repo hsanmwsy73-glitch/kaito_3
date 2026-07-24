@@ -15,7 +15,7 @@ const ff = async (m, { conn, text, command }) => {
     const jid = await m.lid2jid(target);
     const user = global.db.users[jid] || {};
     
-    const isUnban = command === "فك_تشفير" || command === "فك_تشفير";
+    const isUnban = command === "فك_تشفير" || command === "فك_التشفير";
     
     if (isUnban) {
         if (user.banned) {

@@ -132,7 +132,6 @@ async function sub(client) {
           )?.admin;
 
           if (!isSenderAdmin && isBotAdmin) {
-            await sock.groupSettingUpdate(chatJid, "announcement");
             await sock.groupParticipantsUpdate(chatJid, [sender], "remove");
             await sock.sendMessage(chatJid, {
               text: `🚨 @${sender.split("@")[0]}`,
