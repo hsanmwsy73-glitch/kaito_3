@@ -29,11 +29,12 @@ class UltraDB {
                     if (!parsed.groups) parsed.groups = {};
                     if (!parsed.users) parsed.users = {};
                     if (parsed.dev === undefined) parsed.dev = false;
+                    if (parsed.ownerOnly === undefined) parsed.ownerOnly = false;
                     return parsed;
                 }
             }
         } catch (e) {}
-        return { groups: {}, users: {}, dev: false };
+        return { groups: {}, users: {}, dev: false, ownerOnly: false };
     }
     
     #save() {

@@ -2,7 +2,7 @@
   "groups": {},
   "users": {},
   "dev": false,
-  "ownerOnly": true,
+  "ownerOnly": false,
   "noSub": false,
   "group": {}
 }
