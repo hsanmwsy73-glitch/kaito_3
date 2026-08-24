@@ -14,11 +14,13 @@
   "author": "VENi - youssefv",
   "license": "MIT",
   "dependencies": {
+    "axios": "^1.19.0",
     "cheerio": "1.0.0-rc.12",
     "chokidar": "^5.0.0",
     "express": "^5.2.1",
     "file-type": "^18.0.0",
     "form-data": "^4.0.5",
+    "level": "^10.0.0",
     "meowsab": "https://github.com/deveni0/ws/tarball/main",
     "qs": "*",
     "sharp": "https://github.com/deveni0/sharp-tmx/tarball/main",

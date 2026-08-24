@@ -20,7 +20,7 @@ let handler = async (m, { conn }) => {
 };
 
 handler.usage = ["نسخ"];
-handler.command = ["نسخ", "ocr"];
+handler.command = ["ocr"];
 handler.category = "tools";
 
 export default handler;

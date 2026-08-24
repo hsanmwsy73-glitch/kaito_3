@@ -11,10 +11,19 @@ global.isPublic = true;
 startDashboard();
 
 /* =========== Re-pairing retry config ========== */
-const MAX_REPAIR_ATTEMPTS = parseInt(
+const configuredRepairAttempts = Number.parseInt(
   process.env.MAX_REPAIR_ATTEMPTS ?? "3",
   10,
 );
+const MAX_REPAIR_ATTEMPTS =
+  Number.isInteger(configuredRepairAttempts) && configuredRepairAttempts >= 1
+    ? configuredRepairAttempts
+    : 3;
+if (MAX_REPAIR_ATTEMPTS !== configuredRepairAttempts) {
+  console.warn(
+    `[Bot] Invalid MAX_REPAIR_ATTEMPTS value; using ${MAX_REPAIR_ATTEMPTS}. Set it to a positive integer.`,
+  );
+}
 let repairAttempts = 0;
 
 /* =========== Intercept stdout to capture pairing code ========== */
@@ -61,7 +70,7 @@ process.stdout.write = (chunk, ...rest) => {
 
 /* =========== Client ========== */
 const client = new Client({
-  phoneNumber: "9647844320011", // Bot number
+  phoneNumber: "963934149274", // Bot number
   prefix: [".", "/", "!"],
   fromMe: false,
   owners: [
@@ -73,10 +82,17 @@ const client = new Client({
     },
     // Owner 2
     { name: "", lid: "221307316789354@lid", jid: "201093036797@s.whatsapp.net" },
-    // Owner 3
-    { name: "", jid: "@s.whatsapp.net", lid: "50414477168824@lid" },
-    // Owner 4
-    { name: "", jid: "@s.whatsapp.net", lid: "51664513925368@lid" },
+    // Owners 3 and 4 are identified by their LIDs and corresponding JIDs.
+    {
+      name: "",
+      lid: "50414477168824@lid",
+      jid: "50414477168824@s.whatsapp.net",
+    },
+    {
+      name: "",
+      lid: "51664513925368@lid",
+      jid: "51664513925368@s.whatsapp.net",
+    },
   ],
   settings: { noWelcome: false },
   commandsPath: "./plugins",
@@ -124,7 +140,7 @@ config.info = {
 };
 
 /* =========== Seed dashboard state ========== */
-state.phoneNumber = "9647844320011";
+state.phoneNumber = "963934149274";
 state.botName = "KAITO Bot";
 pushUpdate();
 
