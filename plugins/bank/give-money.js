@@ -1,54 +1,73 @@
-const handler = async (m, { text }) => {
-    const amountText = text?.trim()?.split(/\s+/)[0]?.replace(/,/g, '');
-    const amount = Number(amountText);
-    const target = m.mentionedJid?.[0] || m.quoted?.sender;
+/*
+ * أمر: تحويل
+ * الاستخدام: تحويل @شخص المبلغ
+ * مثال: تحويل @user 250
+ *
+ * ⚠️ ملاحظة مهمة قبل الاستخدام:
+ * هذا الكود مبني على افتراض أن رصيد العضو مخزّن في:
+ *   global.db.data.users[jid].money
+ * وهذا الشكل شائع جدًا في بوتات JSON/lowdb.
+ * لو نظام البنك عندك يستخدم اسم متغيّر مختلف (مثلاً balance
+ * أو coin أو rasid) بدّل كلمة "money" في كل مكان بنفس الاسم
+ * المستخدم في أوامر "يومي" و"بروفايل" عندك حتى يتوافق الرصيد.
+ */
 
-    if (!target) {
-        return m.reply(
-            '⚠️ منشن الشخص أو رد على رسالته.\n\n' +
-            'مثال: /منح_فلوس 500 @الشخص'
-        );
-    }
+let handler = async (m, { conn, participants, isAdmin, isOwner, args, usedPrefix, command }) => {
+  // 1) تحديد المستقبل (سواء بمنشن أو بالرد على رسالته)
+  let receiver = m.mentionedJid && m.mentionedJid[0]
+    ? m.mentionedJid[0]
+    : m.quoted
+      ? m.quoted.sender
+      : null;
 
-    if (!amountText || !Number.isInteger(amount) || !Number.isFinite(amount) || amount <= 0) {
-        return m.reply(
-            '⚠️ اكتب مبلغًا صحيحًا موجبًا من الفلوس.\n\n' +
-            'مثال: /منح_فلوس 500 @الشخص'
-        );
-    }
+  if (!receiver) {
+    throw `❎ اذكر الشخص المُراد التحويل له.\n\nمثال:\n${usedPrefix + command} @الشخص 250`;
+  }
 
-    let targetJid = target;
-    if (typeof m.lid2jid === 'function') {
-        try {
-            targetJid = m.lid2jid(target) || target;
-        } catch {
-            targetJid = target;
-        }
-    }
+  // 2) استخراج المبلغ من الأرقام الموجودة في النص
+  let amount = parseInt(args.find(a => /^\d+$/.test(a)));
+  if (!amount || amount <= 0) {
+    throw `❎ اكتب مبلغ صحيح.\n\nمثال:\n${usedPrefix + command} @الشخص 250`;
+  }
 
-    if (!global.db.users[targetJid]) {
-        global.db.users[targetJid] = {};
-    }
+  let sender = m.sender;
 
-    const user = global.db.users[targetJid];
-    const previousBalance = Number.isFinite(Number(user.money)) && Number(user.money) >= 0
-        ? Number(user.money)
-        : 0;
-    const newBalance = previousBalance + amount;
+  if (receiver === sender) {
+    throw `❎ لا يمكنك التحويل لنفسك.`;
+  }
 
-    user.money = newBalance;
+  // 3) التأكد أن الطرفين مسجلين في نظام البنك
+  if (!global.db.data.users[sender]) global.db.data.users[sender] = {};
+  if (!global.db.data.users[receiver]) global.db.data.users[receiver] = {};
 
-    await m.reply(
-        `✅ تم منح @${targetJid.split('@')[0]} مبلغ *${amount} فلوس*.\n` +
-        `💰 الرصيد الجديد: *${newBalance} فلوس*`,
-        null,
-        { mentions: [targetJid] }
-    );
+  let senderData = global.db.data.users[sender];
+  let receiverData = global.db.data.users[receiver];
+
+  if (!senderData.money) senderData.money = 0;
+  if (!receiverData.money) receiverData.money = 0;
+
+  // 4) التحقق أن الرصيد كافي
+  if (senderData.money < amount) {
+    throw `❎ رصيدك غير كافٍ.\nرصيدك الحالي: ${senderData.money}`;
+  }
+
+  // 5) تنفيذ عملية التحويل (خصم + إضافة)
+  senderData.money -= amount;
+  receiverData.money += amount;
+
+  await conn.reply(
+    m.chat,
+    `✅ تم التحويل بنجاح!\n\n` +
+    `💸 المبلغ: ${amount}\n` +
+    `👤 من: @${sender.split('@')[0]}\n` +
+    `📥 إلى: @${receiver.split('@')[0]}\n` +
+    `💰 رصيدك الحالي: ${senderData.money}`,
+    m,
+    { mentions: [sender, receiver] }
+  );
 };
 
-handler.usage = ['منح_فلوس 500 @الشخص'];
-handler.category = 'bank';
-handler.command = ['منح_فلوس', 'اعطاء_فلوس', 'give'];
-handler.owner = true;
+handler.command = ['تحويل', 'حول'];
+handler.group = true; // يعمل داخل الجروب فقط (مناسب لجروب البنك)
 
 export default handler;
