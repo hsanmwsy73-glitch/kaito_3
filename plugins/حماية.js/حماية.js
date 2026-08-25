@@ -5,7 +5,7 @@
 let active = {};
 
 const handler = async (m, { command, isAdmin }) => {
-    if (!isAdmin) return m.reply("للمشرفين");
+    if (!isAdmin) return m.reply("عمي ");
 
     if (command === "احمي") {
         active[m.chat] = true;

@@ -1,4 +1,4 @@
-# Pomni AI — WhatsApp Bot
+# KAITO BOT  — WhatsApp Bot
 
 A WhatsApp bot built on the MeowSab framework (Node.js ESM). It supports group management, entertainment, AI, media downloading, and sub-bot management.
 

@@ -33,7 +33,7 @@ const group = async (ctx, event, eventType) => {
         await ctx.sock.msgUrl(event.chat, txt, {
             img,
             title: ctx.config?.info.nameBot || "WhatsApp Bot",
-            body: "𝐴 𝑠𝑖𝑚𝑝𝑙𝑒 𝑊𝒉𝑎𝑡𝑠𝐴𝑝𝑝 𝑏𝑜𝑡 𝑓𝑜𝑟 𝑏𝑒𝑔𝑖𝑛𝑛𝑒𝑟𝑠, 𝑏𝑦 𝑉𝐸𝑁𝑂𝑀",
+            body: "𝐴 𝑠𝑖𝑚𝑝𝑙𝑒 𝑊𝒉𝑎𝑡𝑠𝐴𝑝𝑝 𝑏𝑜𝑡 𝑓𝑜𝑟 𝑏𝑒𝑔𝑖𝑛𝑛𝑒𝑟𝑠, 𝐵𝑌 𝐾𝐴𝐼𝑇𝑂 ",
             mentions: author ? [author, ...participants] : participants,
             newsletter: {
                 name: '𝑲𝑨𝑰𝑻𝑶 ~ 𝑩𝑳𝑶𝑫 🕷️',
