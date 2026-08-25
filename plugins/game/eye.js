@@ -25,9 +25,9 @@ const shuffle = (arr) => {
 };
 
 const getPrize = (rank) => {
-  if (rank === 0) return { xp: 500, cookies: 10, emoji: "🎉" };
-  if (rank === 1) return { xp: 300, cookies: 5, emoji: "🎖" };
-  return { xp: 100, cookies: 2, emoji: "⭐" };
+  if (rank === 0) return { xp: 500, money: 10, emoji: "🎉" };
+  if (rank === 1) return { xp: 300, money: 5, emoji: "🎖" };
+  return { xp: 100, money: 2, emoji: "⭐" };
 };
 
 const handler = async (m, { conn }) => {
@@ -54,7 +54,7 @@ const handler = async (m, { conn }) => {
         const prize = getPrize(i);
         if (global.db?.users && global.db.users[id]) {
           global.db.users[id].xp = (global.db.users[id].xp || 0) + prize.xp;
-          global.db.users[id].cookies = (global.db.users[id].cookies || 0) + prize.cookies;
+          global.db.users[id].money = (global.db.users[id].money || 0) + prize.money;
         }
         prizes.push(`${prize.emoji} @${id.split('@')[0]} - ${score} نقطة (+${prize.xp} XP)`);
       }

@@ -1,7 +1,7 @@
 const rewards = {
-    daily: { xp: 100, cookies: 5, cooldown: 86400000, name: '☀️ يومي', icon: '🌅', border: '☀️' },
-    weekly: { xp: 500, cookies: 25, cooldown: 604800000, name: '📆 اسبوعي', icon: '🗓️', border: '📅' },
-    monthly: { xp: 2000, cookies: 100, cooldown: 2592000000, name: '🌙 شهري', icon: '🌟', border: '🌙' }
+    daily: { xp: 100, money: 5, cooldown: 86400000, name: '☀️ يومي', icon: '🌅', border: '☀️' },
+    weekly: { xp: 500, money: 25, cooldown: 604800000, name: '📆 اسبوعي', icon: '🗓️', border: '📅' },
+    monthly: { xp: 2000, money: 100, cooldown: 2592000000, name: '🌙 شهري', icon: '🌟', border: '🌙' }
 };
 
 const getTimeRemaining = (lastClaim, cooldown) => {
@@ -46,7 +46,7 @@ const handler = async (m, { conn, command }) => {
     
     user.time[type] = now;
     user.xp = (user.xp || 0) + reward.xp;
-    user.cookies = (user.cookies || 0) + reward.cookies;
+    user.money = (user.money || 0) + reward.money;
     
     const profilePic = await conn.profilePictureUrl(m.sender, 'image').catch(() => 'https://files.catbox.moe/sm8sye.jpg');
     
@@ -57,7 +57,7 @@ const handler = async (m, { conn, command }) => {
 ┃ @${m.sender.split('@')[0]}
 ┃ ✨ حصلت على:
 ┃ 🎉 +${reward.xp} نقطة خبرة
-┃ 🍪 +${reward.cookies} كوكيز
+┃ 💰 +${reward.money} فلوس
 
 ╭─┈─┈─┈─⟞${reward.border}⟝─┈─┈─┈─╮
 ┃ *تـسـتـقـبـل هـديـتك الـقـادمـة بـعـد* 🚀

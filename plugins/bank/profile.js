@@ -3,7 +3,7 @@ async function handler(m, { conn, bot }) {
     const xp = user.xp || 0;
     const level = user.level || 0;
     const nameLevel = user.nameLevel || '🎪 مـشـاهـد';
-    const cookies = user.cookies || 0;
+    const money = user.money || 0;
     const warnings = user.warnings || 0;
     const banned = user.banned || false;
     const premium = user.premium || false;
@@ -35,7 +35,7 @@ async function handler(m, { conn, bot }) {
 ┃ 📊 *الـمـسـتـوى:* ${level}
 ┃ ⭐ *الـنـقـاط:* ${xp} / ${nextLevelXp}
 ┃ 📈 *الـتـقـدم:* [${'⬜'.repeat(Math.floor(xpProgress / 10))}${'⬛'.repeat(10 - Math.floor(xpProgress / 10))}] ${xpProgress}%
-┃ 🍪 *الـكـوكـيـز:* ${cookies}
+┃ 💰 *الـفـلـوس:* ${money}
 ┃ ⚠️ *الـتـحـذيـرات:* ${warnings}
 ┃ 🏷️ *الـحـالـة:* ${status}
 

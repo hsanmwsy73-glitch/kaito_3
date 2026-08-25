@@ -60,8 +60,8 @@ handler.before = async (m, { conn }) => {
             
             if (global.db?.users[winnerJid]) {
                 global.db.users[winnerJid].xp = (global.db.users[winnerJid].xp || 0) + 500;
-                global.db.users[winnerJid].cookies = (global.db.users[winnerJid].cookies || 0) + 10;
-                text += `\n\n🏆 +500 XP | 🍪 +10 كوكيز`;
+                global.db.users[winnerJid].money = (global.db.users[winnerJid].money || 0) + 10;
+                text += `\n\n🏆 +500 XP | 💰 +10 فلوس`;
             }
         } else {
             text = `${drawBoard(game.board)}\n\n🤝 تعادل!`;

@@ -42,12 +42,12 @@ handler.before = async (m, { conn }) => {
         
         if (global.db?.users[m.sender]) {
             global.db.users[m.sender].xp = (global.db.users[m.sender].xp || 0) + 100;
-            global.db.users[m.sender].cookies = (global.db.users[m.sender].cookies  || 0) + 2;
+            global.db.users[m.sender].money = (global.db.users[m.sender].money  || 0) + 2;
         }
         
         await conn.sendMessage(m.chat, {
             image: { url: game.image },
-            caption: `🎉 *صحيح صحيح* عاش جبت اسم العلم صح *100XP & 2 cookies*\n💡 هل هتعرف تكمل؟\n\n> اكتب *${m.prefix || '.'}علم* عشان تلعب تاني`
+            caption: `🎉 *صحيح صحيح* عاش جبت اسم العلم صح *100XP & 2 فلوس*\n💡 هل هتعرف تكمل؟\n\n> اكتب *${m.prefix || '.'}علم* عشان تلعب تاني`
         });
         return true;
     }

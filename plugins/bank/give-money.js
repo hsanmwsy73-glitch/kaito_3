@@ -10,8 +10,11 @@ const handler = async (m, { text }) => {
         );
     }
 
-    if (!amountText || !Number.isSafeInteger(amount) || amount <= 0) {
-        return m.reply('⚠️ اكتب مبلغًا صحيحًا موجبًا من العملات.\n\nمثال: /منح_فلوس 500 @الشخص');
+    if (!amountText || !Number.isInteger(amount) || !Number.isFinite(amount) || amount <= 0) {
+        return m.reply(
+            '⚠️ اكتب مبلغًا صحيحًا موجبًا من الفلوس.\n\n' +
+            'مثال: /منح_فلوس 500 @الشخص'
+        );
     }
 
     let targetJid = target;
@@ -28,20 +31,16 @@ const handler = async (m, { text }) => {
     }
 
     const user = global.db.users[targetJid];
-    const previousBalance = Number.isSafeInteger(user.cookies) && user.cookies >= 0
-        ? user.cookies
+    const previousBalance = Number.isFinite(Number(user.money)) && Number(user.money) >= 0
+        ? Number(user.money)
         : 0;
     const newBalance = previousBalance + amount;
 
-    if (!Number.isSafeInteger(newBalance)) {
-        return m.reply('❌ المبلغ أكبر من الحد المسموح به.');
-    }
-
-    user.cookies = newBalance;
+    user.money = newBalance;
 
     await m.reply(
-        `✅ تم منح @${targetJid.split('@')[0]} مبلغ *${amount} كوكيز*.\n` +
-        `🍪 الرصيد الجديد: *${newBalance} كوكيز*`,
+        `✅ تم منح @${targetJid.split('@')[0]} مبلغ *${amount} فلوس*.\n` +
+        `💰 الرصيد الجديد: *${newBalance} فلوس*`,
         null,
         { mentions: [targetJid] }
     );
