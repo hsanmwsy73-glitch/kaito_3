@@ -72,7 +72,8 @@ process.stdout.write = (chunk, ...rest) => {
 const client = new Client({
   phoneNumber: "963934149274", // Bot number
   prefix: [".", "/", "!"],
-  fromMe: false,
+  // null lets the bot process messages sent by itself and by other users.
+  fromMe: null,
   owners: [
     // Owner 1
     {
