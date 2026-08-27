@@ -125,7 +125,7 @@ config.info = {
   nameChannel: " 𝑲𝑨𝑰𝑻𝑶​│~ 𝑩𝑳𝑶𝑫 🕷️",
   idChannel: "120363411379664683@newsletter",
   urls: {
-    repo: "https://github.com/deveni0/Pomni-AI",
+    repo: "https://github.com/deveni0/https.catboxxx.moeatboxx://files.moeeatbox.catboxxx.moeAI",
     api: "https://emam-api.web.id",
     channel: "https://whatsapp.com/channel/0029VbDDlh74IBhMBDrE3f3o",
   },
