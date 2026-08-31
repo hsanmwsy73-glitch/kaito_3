@@ -1,19 +1,15 @@
 const isOwner = (userId, bot) => bot.config?.owners?.some(o => o.jid === userId || o.lid === userId);
 
+const resolveJid = async (m, jid) => {
+    if (!jid) return null;
+    if (jid.endsWith('@lid') && typeof m.lid2jid === 'function') {
+        return (await m.lid2jid(jid)) || jid;
+    }
+    return jid;
+};
+
 const handler = async (m, { conn, command, bot }) => {
-    let target = m.mentionedJid?.[0];
-    
-    if (target && typeof m.lid2jid === 'function') {
-        target = await m.lid2jid(target);
-    }
-    
-    if (!target && m.quoted) {
-        if (typeof m.lid2jid === 'function') {
-            target = await m.lid2jid(m.quoted.sender);
-        } else {
-            target = m.quoted.sender;
-        }
-    }
+    let target = await resolveJid(m, m.mentionedJid?.[0] || m.quoted?.sender);
     
     if (!target) return m.reply(`*🔇 كتم/فك_كتم @user*\nاو رد على رسالته`);
     if (typeof target !== 'string') return m.reply(`*❌ حدث خطأ في تحديد المستخدم*`);
@@ -61,21 +57,21 @@ handler.before = async (m, { conn, bot }) => {
     if (!muteList) return;
     if (muteList.length === 0) return;
     
-    let isMuted = false;
-    for (let i = 0; i < muteList.length; i++) {
-        if (muteList[i] === m.sender) {
-            isMuted = true;
-            break;
-        }
-    }
+    const sender = await resolveJid(m, m.sender);
+    const isMuted = muteList.includes(sender) || muteList.includes(m.sender);
     
     if (isMuted) {
-        await conn.sendMessage(m.chat, { delete: m.key });
+        try {
+            await m.delete();
+        } catch (err) {
+            console.error('[mute] فشل حذف رسالة المكتوم:', err.message);
+        }
         return true;
     }
 };
 
 handler.command = ["كتم", "فك_كتم"];
 handler.admin = true;
+handler.botAdmin = true;
 
 export default handler;

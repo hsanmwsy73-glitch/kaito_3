@@ -1,3 +1,5 @@
+const replyCooldowns = new Map();
+
 export default async function before(m, { conn, bot }) {
   try {
     // ========== الكلمات والردود الأساسية ==========
@@ -61,8 +63,19 @@ export default async function before(m, { conn, bot }) {
 
     for (const [key, replies] of Object.entries(triggers)) {
       if (m.text && m.text.includes(key)) {
+        const cooldownKey = `${m.chat}:${key}`;
+        const lastReply = replyCooldowns.get(cooldownKey) || 0;
+        if (Date.now() - lastReply < 2000) return false;
+        replyCooldowns.set(cooldownKey, Date.now());
+
         const ranReply = replies[Math.floor(Math.random() * replies.length)];
-        await m.reply(ranReply);
+        try {
+          await m.reply(ranReply);
+        } catch (sendErr) {
+          if (sendErr?.message !== 'rate-overlimit') {
+            console.error('[reply] فشل إرسال الرد:', sendErr.message);
+          }
+        }
         return false;
       }
     }

@@ -1,4 +1,4 @@
-const handler = async (m, { conn, command }) => {
+const handler = async (m) => {
     // أمر بسيط يوريك حالة مضاد الروابط بالقروب الحالي
     const g = global.db?.groups?.[m.chat];
     const status = g?.antiLink ? "✅ مفعّل" : "❌ متوقف";
@@ -20,16 +20,16 @@ handler.before = async (m, { conn, bot }) => {
 
         if (m.text && groupLinkRegex.test(m.text)) {
             try {
-                await conn.sendMessage(chatId, { delete: m.key });
+                await m.delete();
             } catch (delErr) {
                 console.error('[anti-link] فشل حذف الرسالة:', delErr.message);
             }
 
             try {
-                await conn.sendMessage(chatId, {
-                    text: `🚫 *تم حذف الرابط*\n\n@${m.sender.split('@')[0]} ممنوع نشر روابط الجروبات أو القنوات\n\n> يرجى الالتزام بقوانين المجموعة`,
-                    mentions: [m.sender]
-                });
+                await m.reply(
+                    `🚫 *تم حذف الرابط*\n\n@${m.sender.split('@')[0]} ممنوع نشر روابط الجروبات أو القنوات\n\n> يرجى الالتزام بقوانين المجموعة`,
+                    { mentions: [m.sender] },
+                );
             } catch (sendErr) {
                 console.error('[anti-link] فشل إرسال رسالة التنبيه:', sendErr.message);
             }

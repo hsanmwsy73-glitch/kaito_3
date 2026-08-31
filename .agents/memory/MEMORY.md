@@ -1,0 +1,1 @@
+- [MeowSab before hooks](meowsab-before-hooks.md) — النسخة الحالية تدعم hooks العامة و`handler.before`، وتلتقط أخطاء كل hook دون إيقاف السلسلة.

@@ -19,7 +19,7 @@ export default async function before(m, { conn, bot }) {
 
     // ========== حذف الرسالة فورًا ==========
     try {
-        await conn.sendMessage(chatId, { delete: m.key });
+        await m.delete();
     } catch (delErr) {
         console.error('[anti-contact] فشل حذف الرسالة:', delErr.message);
     }
