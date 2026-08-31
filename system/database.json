@@ -45,7 +45,13 @@
     },
     "120363411332697299@g.us": {},
     "120363429188728616@g.us": {},
-    "status@broadcast": {}
+    "status@broadcast": {},
+    "120363428018246940@g.us": {
+      "mute": [
+        "491777954541@s.whatsapp.net"
+      ],
+      "antiLink": true
+    }
   },
   "users": {
     "201130746585@s.whatsapp.net": {},
