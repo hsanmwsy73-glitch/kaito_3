@@ -1,23 +1,51 @@
-export default async function before(m, { conn }) {
-    const g = global.db?.groups[m.chat];
+const handler = async (m, { conn, command }) => {
+    // أمر بسيط يوريك حالة مضاد الروابط بالقروب الحالي
+    const g = global.db?.groups?.[m.chat];
+    const status = g?.antiLink ? "✅ مفعّل" : "❌ متوقف";
+    return m.reply(`🔗 حالة مضاد الروابط بهالقروب: ${status}`);
+};
 
-    if (g?.antiLink && !m.isOwner && !m.isAdmin) {
+handler.before = async (m, { conn, bot }) => {
+    try {
+        const chatId = m.chat;
+        const isGroup = typeof chatId === 'string' && chatId.endsWith('@g.us');
+        if (!isGroup) return false;
+
+        const g = global.db?.groups?.[chatId];
+        if (!g?.antiLink) return false;
+
+        if (m.isOwner || m.isAdmin) return false;
+
         const groupLinkRegex = /(https?:\/\/)?(chat\.whatsapp\.com|whatsapp\.com\/channel)\/[A-Za-z0-9]+/gi;
 
-        if (groupLinkRegex.test(m.text)) {
+        if (m.text && groupLinkRegex.test(m.text)) {
+            try {
+                await conn.sendMessage(chatId, { delete: m.key });
+            } catch (delErr) {
+                console.error('[anti-link] فشل حذف الرسالة:', delErr.message);
+            }
 
-            await conn.sendMessage(m.chat, {
-                delete: m.key
-            });
-
-            await conn.sendMessage(m.chat, { 
-                text: `🚫 *تم حذف الرابط*\n\n@${m.sender.split('@')[0]} ممنوع نشر روابط الجروبات أو القنوات\n\n> يرجى الالتزام بقوانين المجموعة`,
-                mentions: [m.sender]
-            });
+            try {
+                await conn.sendMessage(chatId, {
+                    text: `🚫 *تم حذف الرابط*\n\n@${m.sender.split('@')[0]} ممنوع نشر روابط الجروبات أو القنوات\n\n> يرجى الالتزام بقوانين المجموعة`,
+                    mentions: [m.sender]
+                });
+            } catch (sendErr) {
+                console.error('[anti-link] فشل إرسال رسالة التنبيه:', sendErr.message);
+            }
 
             return true;
         }
-    }
 
-    return false;
-}
+        return false;
+    } catch (err) {
+        console.error('[anti-link] خطأ غير متوقع:', err.message);
+        return false;
+    }
+};
+
+handler.command = ["حالة_مضاد_الروابط"];
+handler.category = "admin";
+handler.usage = ["حالة_مضاد_الروابط"];
+
+export default handler;

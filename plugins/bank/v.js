@@ -33,9 +33,9 @@ const handler = async (m, { conn, command, text }) => {
 ┃ 🏷️ *الاسـم:* ${name}
 ┃ 📅 *الـعـمـر:* ${age} سنة
 
-╭─┈─┈─┈─⟞🎪⟝─┈─┈─┈─╮
-┃ *أهـلاً وسـهـلاً فـي الـسـيـرك* 🎭
-╰─┈─┈─┈─⟞🤡⟝─┈─┈─┈─╯`;
+╭─┈─┈─┈─⛩️⟝─┈─┈─┈─╮
+┃ *أهـلاً وسـهـلاً فـي فلمدينه* 🎭
+╰─┈─┈─┈─⟞🌁⟝─┈─┈─┈─╯`;
 
         await conn.sendMessage(m.chat, {
             image: { url: profilePic },
@@ -50,8 +50,8 @@ const handler = async (m, { conn, command, text }) => {
                     serverMessageId: 0
                 },
                 externalAdReply: {
-                    title: "𝐏𝐎𝐌𝐍𝐈-𝐀𝐈 🎪 | الـسـيـرك الـرقـمـي",
-                    body: "تـسـجـيـل جـديـد فـي الـسـيـرك",
+                    title: "𝑲𝑨𝑰𝑻𝑶-𝐀𝐈 ⛩️ | المدينه المحمصه ",
+                    body: "تـسـجـيـل جـديـد فـي المدينه",
                     thumbnailUrl: profilePic,
                     sourceUrl: '',
                     mediaType: 1,
@@ -78,9 +78,9 @@ const handler = async (m, { conn, command, text }) => {
 ┃ @${m.sender.split('@')[0]}
 ┃ 🏷️ تم حذف بياناتك بنجاح
 
-╭─┈─┈─┈─⟞🎪⟝─┈─┈─┈─╮
+╭─┈─┈─┈─⟞⛩️⟝─┈─┈─┈─╮
 ┃ *يـمـكـنـك الـتـسـجـيـل مـرة أخـرى* 📝
-╰─┈─┈─┈─⟞🤡⟝─┈─┈─┈─╯`;
+╰─┈─┈─┈─⟞🌁⟝─┈─┈─┈─╯`;
 
         await conn.sendMessage(m.chat, {
             image: { url: profilePic },
@@ -95,7 +95,7 @@ const handler = async (m, { conn, command, text }) => {
                     serverMessageId: 0
                 },
                 externalAdReply: {
-                    title: "𝑲𝑨𝑰𝑻𝑶-𝑨𝑰 🎪 | الـسـيـرك الـرقـمـي",
+                    title: "𝑲𝑨𝑰𝑻𝑶-𝑨𝑰 ⛩️ |المدينه المحمصه ",
                     body: "تـم حـذف الـتـسـجـيـل",
                     thumbnailUrl: profilePic,
                     sourceUrl: '',

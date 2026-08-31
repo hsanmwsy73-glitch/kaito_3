@@ -4,10 +4,10 @@ export default async function before(m, { conn }) {
     const user = global.db.users[m.sender];
     let xp = user.xp || 0;
     let level = user.level || 0;
-    let nameLevel = user.nameLevel || '🎪 مشاهد';
+    let nameLevel = user.nameLevel || '⛩️ مواطن';
     
     const levels = [
-        { min: 0, max: 99, name: '🎪 مشاهد' },
+        { min: 0, max: 99, name: '🎪 ' },
         { min: 100, max: 249, name: '🎭 متدرب سيرك' },
         { min: 250, max: 499, name: '🤡 مهرج صغير' },
         { min: 500, max: 799, name: '🎪 لاعب أكروبات' },

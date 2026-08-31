@@ -58,9 +58,9 @@ const handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
     );
 };
 
-handler.usage = ['تحويل_مطور @الشخص 1000'];
+handler.usage = ['تحويل مطور'];
 handler.category = 'bank';
-handler.command = ['تحويل_مطور', 'تحويل_ادمن', 'اضافه_رصيد'];
+handler.command = ['تحويل مطور', 'تحويل_ادمن', 'اضافه_رصيد'];
 handler.owner = true;
 handler.group = true;
 

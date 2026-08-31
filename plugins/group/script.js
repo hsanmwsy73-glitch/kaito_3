@@ -35,6 +35,6 @@ Video: _**_
 }
 handler.usage = ["سكريبت"];
 handler.category = "group";
-handler.command = ["سكريبت", "سورس", "sc"];
+handler.command = ["88", "99", "sc"];
 
 export default handler;

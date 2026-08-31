@@ -61,9 +61,9 @@ const handler = async (m, { conn }) => {
 ┃ 💰 +${available} نقطة
 ┃ ⚠️ سلبته كل اللي عنده!
 
-╭─┈─┈─⟞🎪⟝─┈─┈─╮
+╭─┈─┈─⟞⛩️⟝─┈─┈─╮
 ┃ *اسـتـمـر ولا تـتـوقـف* 🔥
-╰─┈─┈─⟞🤡⟝─┈─┈─╯`,
+╰─┈─┈─⟞🌁⟝─┈─┈─╯`,
             contextInfo: { mentionedJid: [m.sender, target] }
         }, { quoted: reply_status });
         return;
@@ -83,9 +83,9 @@ const handler = async (m, { conn }) => {
 ┃ سرقت من @${target.split('@')[0]}
 ┃ 💰 +${stealAmount} نقطة
 
-╭─┈─┈─⟞🎪⟝─┈─┈─╮
+╭─┈─┈─⟞⛩️⟝─┈─┈─╮
 ┃ *اسـتـمـر ولا تـتـوقـف* 🔥
-╰─┈─┈─⟞🤡⟝─┈─┈─╯`,
+╰─┈─┈─⟞🌁⟝─┈─┈─╯`,
         contextInfo: { mentionedJid: [m.sender, target] }
     }, { quoted: reply_status });
 };

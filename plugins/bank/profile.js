@@ -62,6 +62,6 @@ async function handler(m, { conn, bot }) {
 
 handler.usage = ["بروفايل"];
 handler.category = "bank";
-handler.command = ["بروفايل", "profile", "my"];
+handler.command = ["فلوسي", "profile", "my"];
 
 export default handler;

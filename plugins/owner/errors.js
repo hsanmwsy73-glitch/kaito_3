@@ -3,7 +3,7 @@ const res = (await bot.errors()).map(x => `\n
 #📂 الملف: ${x.file}
 #🌱 الأمر: ${x.command}
 #❌ الايرور: ${x.error}
-==============`).join(" ")
+==============`).join("مافي ايرور ❌")
 m.reply(res)
 }
 run.command = ["الايرورات"]

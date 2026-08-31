@@ -2,23 +2,98 @@
   "groups": {
     "120363428980804367@g.us": {},
     "120363428184551852@g.us": {},
-    "120363429188728616@g.us": {},
     "120363411053814884@g.us": {},
     "120363411043961395@g.us": {},
     "120363430081911134@g.us": {},
-    "120363427595558217@g.us": {}
+    "120363427595558217@g.us": {
+      "mute": [],
+      "noWelcome": true
+    },
+    "120363414055337881@g.us": {
+      "noWelcome": true
+    },
+    "120363410063423342@g.us": {},
+    "120363428682834794@g.us": {},
+    "120363412962815805@g.us": {},
+    "120363428987220579@g.us": {},
+    "120363412050658034@g.us": {},
+    "120363430784316169@g.us": {},
+    "120363430204281274@g.us": {},
+    "120363409200278479@g.us": {
+      "noWelcome": true
+    },
+    "120363410378678187@g.us": {},
+    "120363411700565138@g.us": {
+      "mute": [
+        "201287815786@s.whatsapp.net"
+      ]
+    },
+    "120363412758127480@g.us": {},
+    "120363428154613693@g.us": {
+      "noWelcome": true
+    },
+    "120363430324367745@g.us": {
+      "antiContact": true
+    },
+    "120363412490399913@g.us": {
+      "antiLink": true
+    },
+    "120363413829212075@g.us": {
+      "antiContact": true,
+      "antiLink": true,
+      "mute": []
+    },
+    "120363411332697299@g.us": {},
+    "120363429188728616@g.us": {},
+    "status@broadcast": {}
   },
   "users": {
     "201130746585@s.whatsapp.net": {},
-    "201093036797@s.whatsapp.net": {},
-    "963934149274@s.whatsapp.net": {},
+    "201093036797@s.whatsapp.net": {
+      "money": 1051,
+      "banned": true
+    },
+    "963934149274@s.whatsapp.net": {
+      "money": 24849,
+      "banned": true
+    },
     "201204407958@s.whatsapp.net": {},
     "201111552063@s.whatsapp.net": {},
     "963964722191@s.whatsapp.net": {},
-    "201287815786@s.whatsapp.net": {}
+    "201287815786@s.whatsapp.net": {
+      "money": 10000
+    },
+    "201284987204@s.whatsapp.net": {},
+    "201558226597@s.whatsapp.net": {
+      "money": 16000
+    },
+    "8562087511191@s.whatsapp.net": {},
+    "212607062237@s.whatsapp.net": {},
+    "212781075479@s.whatsapp.net": {
+      "money": 2000
+    },
+    "249125746001@s.whatsapp.net": {},
+    "201107364133@s.whatsapp.net": {},
+    "249909300846@s.whatsapp.net": {},
+    "201040568566@s.whatsapp.net": {},
+    "201123843784@s.whatsapp.net": {},
+    "48450414717@s.whatsapp.net": {},
+    "201130854890@s.whatsapp.net": {},
+    "201114780141@s.whatsapp.net": {},
+    "201032294453@s.whatsapp.net": {},
+    "963983836948@s.whatsapp.net": {},
+    "212617338518@s.whatsapp.net": {},
+    "48459077526@s.whatsapp.net": {},
+    "201113246301@s.whatsapp.net": {},
+    "212639713449@s.whatsapp.net": {},
+    "201505444280@s.whatsapp.net": {},
+    "491777954541@s.whatsapp.net": {},
+    "201036862089@s.whatsapp.net": {},
+    "201558315100@s.whatsapp.net": {},
+    "963996331450@s.whatsapp.net": {}
   },
-  "dev": false,
-  "ownerOnly": false,
+  "dev": true,
+  "ownerOnly": true,
   "noSub": false,
   "group": {}
 }

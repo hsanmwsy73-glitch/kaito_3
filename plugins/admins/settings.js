@@ -1,39 +1,55 @@
 async function handler(m, { conn, command, args }) {
     const chatId = m.chat;
     const subCmd = args[0]?.toLowerCase();
+    const isGroup = typeof chatId === 'string' && chatId.endsWith('@g.us');
+
+    const groupOnlySubCommands = [
+        'ايقاف_الترحيب', 'تشغيل_الترحيب',
+        'تشغيل_الادمن', 'ايقاف_الادمن',
+        'تشغيل_مضاد_الروابط', 'ايقاف_مضاد_الروابط',
+    ];
+
+    if (subCmd && groupOnlySubCommands.includes(subCmd) && !isGroup) {
+        return m.reply('*❌ هذا الأمر يشتغل بس داخل القروبات*\n> جرّبه داخل قروب فيه البوت، مو هنا');
+    }
+
+    if (isGroup) {
+        try {
+            if (!global.db.groups) global.db.groups = {};
+            if (!global.db.groups[chatId]) global.db.groups[chatId] = {};
+        } catch (dbErr) {
+            console.error('[settings] فشل تهيئة قاعدة بيانات القروب:', dbErr.message);
+            return m.reply('*❌ صار خطأ بقاعدة البيانات، حاول مرة ثانية بعد شوي*');
+        }
+    }
+
+    const g = isGroup ? global.db.groups[chatId] : {};
+    const welcomeOn = !g?.noWelcome;
+    const adminOn = !!g?.adminOnly;
+    const antiLinkOn = !!g?.antiLink;
+    const devOn = !!global.db.dev;
+    const ownerOnlyOn = !!global.db.ownerOnly;
+
+    const status = (on) => on ? "✅" : "❌";
+
     const menu = `
 ╭─┈─┈─┈─⟞🕸️⟝─┈─┈─┈─╮
 │ *نظام التفعيل والتشغيل*
 │
-│ *.تفعيل ايقاف_الترحيب*
-│ > البوت هيبطل يرحب بالاعضاء
+│ ${status(welcomeOn)} *الترحيب بالأعضاء*
+│ *.تفعيل ايقاف_الترحيب* / *.تفعيل تشغيل_الترحيب*
 │
-│ *.تفعيل تشغيل_الترحيب*
-│ > البوت يرحب بالاعضاء
+│ ${status(adminOn)} *وضع المشرفين فقط*
+│ *.تفعيل تشغيل_الادمن* / *.تفعيل ايقاف_الادمن*
 │
-│ *.تفعيل تشغيل_الادمن*
-│ > البوت يرد على المشرفين فقط
+│ ${status(ownerOnlyOn)} *وضع المطور فقط (عام)*
+│ *.تفعيل مطور_فقط* / *.تفعيل مطور_عام*
 │
-│ *.تفعيل ايقاف_الادمن*
-│ > البوت يرد على الجميع
+│ ${status(antiLinkOn)} *مضاد الروابط*
+│ *.تفعيل تشغيل_مضاد_الروابط* / *.تفعيل ايقاف_مضاد_الروابط*
 │
-│ *.تفعيل مطور_فقط*
-│ > البوت يتفاعل مع المطورين فقط
-│
-│ *.تفعيل مطور_عام*
-│ > البوت يتفاعل مع الجميع
-│
-│ *.تفعيل تشغيل_مضاد_الروابط*
-│ > البوت يحذف أي رابط
-│
-│ *.تفعيل ايقاف_مضاد_الروابط*
-│ > البوت مايحذفش الروابط
-│
-│ *.تفعيل ايقاف_خاص*
-│ > البوت هيشتغل مع المطورين فقط خاص
-│
-│ *.تفعيل تشغيل_خاص*
-│ > البوت هيشتغل مع كله خاص
+│ ${status(devOn)} *الخاص للمطورين فقط*
+│ *.تفعيل ايقاف_خاص* / *.تفعيل تشغيل_خاص*
 ╰─┈─┈─┈─⟞🕸️⟝─┈─┈─┈─╯
 `;
     if (!subCmd) {
@@ -136,7 +152,7 @@ async function handler(m, { conn, command, args }) {
             
         case 'مطور_عام':
             if (!m.isOwner) {
-                result = '*❌ هذا الأمر للمطور فقط*';
+                result = '❌ هذا الأمر* للمطور فقط ';
                 break;
             }
             global.db.ownerOnly = false;
@@ -177,7 +193,7 @@ async function handler(m, { conn, command, args }) {
             result = '*✅ تم تشغيل البوت خاص ل الكل*\n> كله دلوقت يقدر يستخدم البوت خاص';
             break;
         default:
-            return m.reply("╭─┈─┈─┈─⟞🕸️⟝─┈─┈─┈─╮\n│ *نظام التفعيل والتشغيل*\n│\n│ 🔇 ايقاف_الترحيب\n│ 🔊 تشغيل_الترحيب\n│ 👑 تشغيل_الادمن\n│ 👥 ايقاف_الادمن\n│ ⭐ مطور_فقط\n│ 🌍 مطور_عام\n│ 🚫 تشغيل_مضاد_الروابط\n│ ✅ ايقاف_مضاد_الروابط\n╰─┈─┈─┈─⟞🕸️⟝─┈─┈─┈─╯");
+            return m.reply("╭─┈─┈─┈─⟞🕸️⟝─┈─┈─┈─╮\n│ *نظام التفعيل والتشغيل*\n│\n│ 🔇 ايقاف_الترحيب\n│ 🔊 تشغيل_الترحيب\n│ 👑 تشغيل_الادمن\n│ 👥 ايقاف_الادمن\n│ ⭐ مطور_فقط\n│ 🌍 مطور_عام\n│ 🚫 تشغيل_مضاد_الروابط\n│ ✅ ايقاف_مضاد_الروابط\n╰─┈─┈─┈─⟞🕸️⟝─┈─┈─┈─╮\n");
     }
     
     if (result) {

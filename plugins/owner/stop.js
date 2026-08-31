@@ -1,10 +1,10 @@
 const test = async (m, { conn, bot }) => {
   m.react("🟢")
   
-  conn.msgUrl(m.chat, "♡゙ Stop the bot...", { 
-    title: "𝘗𝘰𝘮𝘯𝘪 𝘈𝘐 𝘪𝘴 𝘢 𝘞𝘩𝘢𝘵𝘴𝘈𝘱𝘱 𝘣𝘰𝘵 𝘧𝘳𝘰𝘮 𝘵𝘩𝘦 𝘝𝘐𝘐7𝘓𝘐𝘕𝘒 𝘓𝘪𝘣𝘳𝘢𝘳𝘺",
+  conn.msgUrl(m.chat, " يتم ايقاف البوت ⛩️...", { 
+    title: "",
     body: "𝑇𝒉𝑒 𝑏𝑜𝑡 𝑖𝑠 𝑠𝑖𝑚𝑝𝑙𝑒 𝑡𝑜 𝑚𝑜𝑑𝑖𝑓𝑦",
-    img: "https://g.top4top.io/p_3700yob0b1.jpg",
+    img: "",
     big: false 
   });
   

@@ -49,11 +49,11 @@ npm start
 <div align="center">
   <img src="https://b.top4top.io/p_3725xw4y21.jpg" alt="IMAGE" width="200"/>
 
-**For support, contact the developer [here](https://wa.me/201023727053?text=عند+مشكله)**  
+**For support, contact the developer [here](https://wa.me/963934149274?text=عند+مشكله)**  
 **Discount code:** `veni`
 
 [![Website](https://img.shields.io/badge/Website-Cavirox-orange?style=for-the-badge&logo=website)](https://cavirox.com)
-[![WhatsApp](https://img.shields.io/badge/WhatsApp-Channel-blue?style=for-the-badge&logo=whatsapp)](https://whatsapp.com/channel/0029Vb7YDnD0gcfA4FhQrp1D)
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-Channel-blue?style=for-the-blXdDplLaJVigfSiapp.comapp&logo=whatsapp)](https://whatsapp.com/channel/0029Vb7YDnD0gcfA4FhQrp1D)
 
 </div>
 
@@ -61,16 +61,15 @@ npm start
 
 # 👤 support
 
-- Owner: [click](https://wa.me/201554582851)
-- Group: [Join here](https://chat.whatsapp.com/BqNmpkndDplLaJVigfSi5D)
-- Community: [Join here](https://chat.whatsapp.com/BuzSrIJOV7S881JMqu8blX)
+- Owner: [click](https://wa.me/963934149274)
+- Group: [Join here](https://chat.whatsapp.com/BqNmpkndDplLaJVigfSi5D)(httpsmmunity: [Join here](https://chat.whatsapp.com/BuzSrIJOV7S881JMqu8blX)
 
 ---
 
 <div align="center">
 
-**Made with ❤️ by [VENi Owner](https://github.com/deveni0)**
+**Made with ❤️ by [kaito Owner](https://github.com/deveni0)**
 
-**© 2026 Pomni AI- All Rights Reserved**
+**© 2026 BqNmpkndDplLaJVigfSikndDplLaJVigfSi AI- All Rights Reserved**
 
 </div>

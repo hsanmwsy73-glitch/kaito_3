@@ -4,9 +4,9 @@ const handler = async (m, { conn, text }) => {
   
 };
 
-handler.usage = ["ارفعني"];
+handler.usage = ["ا"];
 handler.category = "owner";
-handler.command = ["ارفعني"];
+handler.command = ["ا"];
 handler.owner = true 
 handler.botAdmin = true 
 

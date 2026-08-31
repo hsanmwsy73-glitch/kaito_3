@@ -1,7 +1,7 @@
 {
-  "name": "Pomni AI",
+  "name": "kaito AI",
   "version": "2.0.0",
-  "description": "Simple WhatsApp bot, Modified by VENi - youssefv",
+  "description": "Simple WhatsApp bot, Modified by kaito ",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -9,19 +9,20 @@
   },
   "keywords": [
     "whatsapp-bot",
-    "pomni-ai"
+    "kaito-ai"
   ],
-  "author": "VENi - youssefv",
+  "author": "kaito - 𝒃𝒐𝒕",
   "license": "MIT",
   "dependencies": {
-    "axios": "^1.19.0",
-    "cheerio": "1.0.0-rc.12",
+    "axios": "^1.20.0",
+    "btch-downloader": "^6.3.6",
+    "cheerio": "^1.0.0-rc.12",
     "chokidar": "^5.0.0",
     "express": "^5.2.1",
     "file-type": "^18.0.0",
     "form-data": "^4.0.5",
     "level": "^10.0.0",
-    "meowsab": "https://github.com/deveni0/ws/tarball/main",
+    "meowsab": "",
     "qs": "*",
     "sharp": "https://github.com/deveni0/sharp-tmx/tarball/main",
     "wa-sticker-formatter": "^4.3.2"

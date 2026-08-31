@@ -1,4 +1,5 @@
 export default async function before(m, { conn, bot }) {
+  try {
     const groups = [
         "120363353449975838@g.us",
         "120363418376913985@g.us"
@@ -9,4 +10,8 @@ export default async function before(m, { conn, bot }) {
     }
 
     return false;
+  } catch (err) {
+    console.error('[noBots] خطأ غير متوقع:', err.message);
+    return false;
+  }
 }
