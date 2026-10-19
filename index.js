@@ -1,6 +1,7 @@
 import { Client } from "meowsab";
 import { group, access } from "./system/control.js";
 import UltraDB from "./system/UltraDB.js";
+import { commandPolicyMiddleware } from "./system/commandPolicy.js";
 import sub from "./sub.js";
 import { startDashboard, state, pushUpdate } from "./dashboard.js";
 import fs from "fs";
@@ -70,7 +71,7 @@ process.stdout.write = (chunk, ...rest) => {
 
 /* =========== Client ========== */
 const client = new Client({
-  phoneNumber: "963934149274", // Bot number
+  phoneNumber: "962798275159", // Bot number
   prefix: [".", "/", "!"],
   // null lets the bot process messages sent by itself and by other users.
   fromMe: null,
@@ -117,6 +118,7 @@ client.onCommandAccess(access);
 if (!global.db) {
   global.db = new UltraDB();
 }
+client.useMiddleware(commandPolicyMiddleware);
 
 /* =========== Config ========== */
 const { config } = client;

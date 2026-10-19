@@ -16,7 +16,8 @@ handler.before = async (m, { conn, bot }) => {
 
         if (m.isOwner || m.isAdmin) return false;
 
-        const groupLinkRegex = /(https?:\/\/)?(chat\.whatsapp\.com|whatsapp\.com\/channel)\/[A-Za-z0-9]+/gi;
+        const groupLinkRegex =
+            /(?:https?:\/\/|www\.)[^\s<>{}]+|(?<![\w@])(?:[\w-]+\.)+[a-z]{2,}(?:\/[^\s<>{}]*)?/i;
 
         if (m.text && groupLinkRegex.test(m.text)) {
             try {
@@ -47,5 +48,6 @@ handler.before = async (m, { conn, bot }) => {
 handler.command = ["حالة_مضاد_الروابط"];
 handler.category = "admin";
 handler.usage = ["حالة_مضاد_الروابط"];
+handler.group = true;
 
 export default handler;

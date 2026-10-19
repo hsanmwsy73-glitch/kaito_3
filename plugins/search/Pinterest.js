@@ -44,6 +44,6 @@ async function test(m, { conn, bot, text }) {
 }
 
 test.category = "search";
-test.usage = ["بينترست"];
-test.command = ["بين", "بينترست", "pinterest"];
+test.usage = ["بين", "بينترست", "بحث_بينترست"];
+test.command = ["بين", "بينترست", "بحث_بينترست"];
 export default test;

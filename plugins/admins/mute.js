@@ -31,7 +31,8 @@ const handler = async (m, { conn, command, bot }) => {
             await conn.sendMessage(m.chat, { text: `*❌ @${target.split('@')[0]} مكتوم*`, mentions: [target] });
             return;
         }
-        muteList.push(target);
+        // Assign a new array so UltraDB's group proxy persists the mutation.
+        group.mute = [...muteList, target];
         await conn.sendMessage(m.chat, { text: `*✅ تم كتم @${target.split('@')[0]}*\n🔒 لن يتمكن من الكلام`, mentions: [target] });
     } else if (command === "فك_كتم") {
         if (!isMuted) {
@@ -71,6 +72,7 @@ handler.before = async (m, { conn, bot }) => {
 };
 
 handler.command = ["كتم", "فك_كتم"];
+handler.group = true;
 handler.admin = true;
 handler.botAdmin = true;
 
