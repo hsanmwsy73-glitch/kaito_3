@@ -1,49 +1,69 @@
+const resolveParticipant = async (m, conn, rawTarget) => {
+  if (!rawTarget) return null;
+  const targetJid = rawTarget.endsWith("@lid")
+    ? await m.lid2jid(rawTarget)
+    : rawTarget;
+  const participants = (await conn.groupMetadata(m.chat)).participants;
+  return participants.find(
+    (participant) =>
+      participant.id === rawTarget ||
+      participant.id === targetJid ||
+      participant.phoneNumber === targetJid,
+  ) || null;
+};
+
 const handler = async (m, { conn }) => {
-  let targetLid = m.mentionedJid?.[0] || m.quoted?.sender;
-  let targetJid = m.lid2jid(targetLid);
+  if (!m.isGroup) return m.reply("❌ هذا الأمر يعمل داخل المجموعات فقط.");
+  const targetLid = m.mentionedJid?.[0] || m.quoted?.sender;
+  if (!targetLid) return m.reply('⚠️ *يرجى منشن الشخص أو الرد على رسالته* ⚠️');
 
-  if (!targetJid || !targetLid) return m.reply('⚠️ *يرجى منشن الشخص أو الرد على رسالته* ⚠️');
-
-  const user = (await conn.groupMetadata(m.chat)).participants.find(
-    p => p.id === targetLid || p.phoneNumber === targetJid
-  );
+  const user = await resolveParticipant(m, conn, targetLid);
 
   if (!user) return m.reply("❌ المستخدم غير موجود في الجروب");
 
-  db.groups[m.chat] ??= {};
-  db.groups[m.chat].warnings ??= {};
-
-  const id = user.phoneNumber;
-  const jid = targetLid;
-
-  const warnCount = db.groups[m.chat].warnings[id] =
-    (db.groups[m.chat].warnings[id] || 0) + 1;
+  const group = global.db.groups[m.chat];
+  const warnings = { ...(group.warnings || {}) };
+  const id = user.phoneNumber || targetLid;
+  const warnCount = (Number(warnings[id]) || 0) + 1;
+  warnings[id] = warnCount;
+  group.warnings = warnings;
 
   await conn.sendMessage(m.chat, {
     text: `⚠️ تم إعطاء إنذار
 
 👤: @${id.split("@")[0]}
 📊 عدد الإنذارات: ${warnCount}`,
-    mentions: [jid]
+    mentions: [user.id || targetLid]
   }, { quoted: global.reply_status });
 };
 
 handler.before = async (m, { conn }) => {
-  const g = global.db?.groups?.[m.chat];
-  if (!g?.warnings) return false;
+  if (!m.isGroup || m.isAdmin || m.isOwner) return false;
+  const group = global.db?.groups?.[m.chat];
+  const warnings = group?.warnings;
+  if (!warnings) return false;
 
-  const user = m.sender;
+  const userJid = m.sender?.endsWith("@lid")
+    ? (await m.lid2jid(m.sender)) || m.sender
+    : m.sender;
+  const warningKey = Object.hasOwn(warnings, userJid)
+    ? userJid
+    : Object.hasOwn(warnings, m.sender)
+      ? m.sender
+      : null;
+  if (!warningKey || Number(warnings[warningKey]) < 3) return false;
 
-  if (!g.warnings[user]) return false;
-
-  if (g.warnings[user] >= 3) {
+  if (Number(warnings[warningKey]) >= 3) {
     await conn.sendMessage(m.chat, {
-      text: `🚫 @${user.split("@")[0]} انت خالفت القوانين، دلوقتي هنطردك`,
-      mentions: [user]
+      text: `🚫 @${userJid.split("@")[0]} انت خالفت القوانين، دلوقتي هنطردك`,
+      mentions: [userJid]
     }, { quoted: global.reply_status });
 
-    await conn.groupParticipantsUpdate(m.chat, [user], "remove");
-    delete g.warnings[user];
+    await conn.groupParticipantsUpdate(m.chat, [userJid], "remove");
+    const updatedWarnings = { ...warnings };
+    delete updatedWarnings[warningKey];
+    group.warnings = updatedWarnings;
+    return true;
   }
 
   return false;
@@ -52,7 +72,8 @@ handler.before = async (m, { conn }) => {
 handler.command = ["انذار", "تحذير", "warn"];
 handler.usage = ['انذار'];
 handler.category = "admin";
+handler.group = true;
 handler.admin = true;
-handler.botAdmin = true
+handler.botAdmin = true;
 
 export default handler;

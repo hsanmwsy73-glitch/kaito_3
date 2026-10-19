@@ -122,6 +122,25 @@ client.useMiddleware(commandPolicyMiddleware);
 
 /* =========== Config ========== */
 const { config } = client;
+const persistedOwners = Array.isArray(global.db.owners)
+  ? global.db.owners.filter(
+      (owner) =>
+        owner &&
+        typeof owner.jid === "string" &&
+        owner.jid.includes("@") &&
+        typeof owner.lid === "string" &&
+        owner.lid.includes("@"),
+    )
+  : [];
+for (const owner of persistedOwners) {
+  if (
+    !config.owners.some(
+      (configured) => configured.jid === owner.jid || configured.lid === owner.lid,
+    )
+  ) {
+    config.owners.push(owner);
+  }
+}
 config.info = {
   nameBot: "𝑲𝑨𝑰𝑻𝑶​│𝑩𝑳𝑶𝑫〈",
   nameChannel: " 𝑲𝑨𝑰𝑻𝑶​│~ 𝑩𝑳𝑶𝑫 🕷️",
@@ -143,7 +162,7 @@ config.info = {
 };
 
 /* =========== Seed dashboard state ========== */
-state.phoneNumber = "963934149274";
+state.phoneNumber = config.phoneNumber;
 state.botName = "KAITO Bot";
 pushUpdate();
 

@@ -28,13 +28,14 @@ class UltraDB {
                     const parsed = JSON.parse(raw);
                     if (!parsed.groups) parsed.groups = {};
                     if (!parsed.users) parsed.users = {};
+                    if (!Array.isArray(parsed.owners)) parsed.owners = [];
                     if (parsed.dev === undefined) parsed.dev = false;
                     if (parsed.ownerOnly === undefined) parsed.ownerOnly = false;
                     return parsed;
                 }
             }
         } catch (e) {}
-        return { groups: {}, users: {}, dev: false, ownerOnly: false };
+        return { groups: {}, users: {}, owners: [], dev: false, ownerOnly: false };
     }
     
     #save() {

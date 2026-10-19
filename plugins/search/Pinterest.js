@@ -38,8 +38,13 @@ async function test(m, { conn, bot, text }) {
     }, reply_status);
     
   } catch (error) {
-    console.error(error.messsage);
-    m.react("❌")
+    console.error("[pinterest search] Failed:", error?.message || error);
+    try {
+      await m.react("❌");
+    } catch (reactionError) {
+      console.error("[pinterest search] Failed to react:", reactionError.message);
+    }
+    return m.reply("❌ تعذر البحث في Pinterest الآن. حاول مرة أخرى لاحقًا.");
   }
 }
 
