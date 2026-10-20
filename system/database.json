@@ -107,10 +107,11 @@
     "963994960138@s.whatsapp.net": {},
     "967775539158@s.whatsapp.net": {},
     "447518816287@s.whatsapp.net": {},
-    "96894606608@s.whatsapp.net": {}
+    "96894606608@s.whatsapp.net": {},
+    "212609702216@s.whatsapp.net": {}
   },
-  "dev": true,
-  "ownerOnly": true,
+  "dev": false,
+  "ownerOnly": false,
   "noSub": false,
   "group": {},
   "owners": []
