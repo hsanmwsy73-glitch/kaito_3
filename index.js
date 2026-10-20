@@ -11,22 +11,6 @@ global.isPublic = true;
 /* =========== Dashboard ========== */
 startDashboard();
 
-/* =========== Re-pairing retry config ========== */
-const configuredRepairAttempts = Number.parseInt(
-  process.env.MAX_REPAIR_ATTEMPTS ?? "3",
-  10,
-);
-const MAX_REPAIR_ATTEMPTS =
-  Number.isInteger(configuredRepairAttempts) && configuredRepairAttempts >= 1
-    ? configuredRepairAttempts
-    : 3;
-if (MAX_REPAIR_ATTEMPTS !== configuredRepairAttempts) {
-  console.warn(
-    `[Bot] Invalid MAX_REPAIR_ATTEMPTS value; using ${MAX_REPAIR_ATTEMPTS}. Set it to a positive integer.`,
-  );
-}
-let repairAttempts = 0;
-
 /* =========== Intercept stdout to capture pairing code ========== */
 const _stripAnsi = (str) =>
   str.replace(/\x1B\[[0-9;]*[mGKHF]/g, "").replace(/\x1B\][^\x07]*\x07/g, "");
@@ -41,30 +25,13 @@ process.stdout.write = (chunk, ...rest) => {
     pushUpdate();
   }
   if (/Session logged out/i.test(line)) {
-    if (repairAttempts >= MAX_REPAIR_ATTEMPTS) {
-      state.status = "failed";
-      state.pairingCode = null;
-      state.repairAttempts = repairAttempts;
-      pushUpdate();
-      console.error(
-        `[Bot] Re-pairing limit reached (${MAX_REPAIR_ATTEMPTS} attempts). Giving up to prevent endless restart loop.`,
-      );
-    } else {
-      repairAttempts += 1;
-      const sessionDir = path.resolve("./session");
-      fs.rmSync(sessionDir, { recursive: true, force: true });
-      fs.mkdirSync(sessionDir, { recursive: true });
-      state.status = "re-pairing";
-      state.pairingCode = null;
-      state.repairAttempts = repairAttempts;
-      pushUpdate();
-      console.log(
-        `[Bot] Re-pairing attempt ${repairAttempts}/${MAX_REPAIR_ATTEMPTS}...`,
-      );
-      setTimeout(() => {
-        client.start();
-      }, 1500);
-    }
+    state.status = "failed";
+    state.pairingCode = null;
+    state.repairAttempts = 0;
+    pushUpdate();
+    console.error(
+      "[Bot] WhatsApp reported a logged-out session. Saved session files were kept; use the explicit pairing reset only if WhatsApp removed the linked device.",
+    );
   }
   return _origWrite(chunk, ...rest);
 };
@@ -99,7 +66,6 @@ const client = new Client({
   settings: { noWelcome: false },
   commandsPath: "./plugins",
   onConnected: () => {
-    repairAttempts = 0;
     state.status = "connected";
     state.connectedAt = new Date().toISOString();
     state.repairAttempts = 0;
@@ -166,7 +132,7 @@ state.phoneNumber = config.phoneNumber;
 state.botName = "KAITO Bot";
 pushUpdate();
 
-/* =========== Wipe stale session on exit ========== */
+/* =========== Session management ========== */
 function wipeSession() {
   const sessionDir = path.resolve("./session");
   try {
@@ -178,23 +144,6 @@ function wipeSession() {
     return false;
   }
 }
-
-for (const sig of ["SIGINT", "SIGTERM", "SIGHUP"]) {
-  process.prependListener(sig, () => {
-    wipeSession();
-    console.log(`[Bot] Session cleared during ${sig}.`);
-    // meowsab handles graceful cleanup for SIGINT/SIGTERM after this listener.
-    // It does not register a SIGHUP handler, so exit explicitly for that signal.
-    if (sig === "SIGHUP") process.exit(0);
-  });
-}
-
-/* =========== Always start with a fresh WhatsApp session ========== */
-if (!wipeSession()) {
-  console.error("[Bot] Refusing to start because the session could not be cleared.");
-  process.exit(1);
-}
-console.log("[Bot] Session cleared at startup; a new WhatsApp pairing is required.");
 
 /* =========== Validate session before connecting ========== */
 (function validateSession() {
@@ -215,7 +164,6 @@ console.log("[Bot] Session cleared at startup; a new WhatsApp pairing is require
 /* =========== Reset-pairing hook (callable from plugins) ========== */
 global.resetPairing = () => {
   if (state.status !== "failed") return false;
-  repairAttempts = 0;
   state.repairAttempts = 0;
   wipeSession();
   state.status = "re-pairing";
@@ -242,13 +190,11 @@ setTimeout(async () => {
 process.on("uncaughtException", (e) => {
   if (e.message.includes("rate-overlimit")) return;
   console.error("Uncaught Exception:", e.message);
-  wipeSession();
   process.exit(1);
 });
 
 process.on("unhandledRejection", (err) => {
   console.error("Unhandled Rejection:", err);
-  wipeSession();
 });
 
 /* 
