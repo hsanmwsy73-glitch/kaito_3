@@ -1,1 +1,2 @@
 - [MeowSab before hooks](meowsab-before-hooks.md) — النسخة الحالية تدعم hooks العامة و`handler.before`، وتلتقط أخطاء كل hook دون إيقاف السلسلة.
+- [WhatsApp session lifecycle](session-lifecycle.md) — احذف مجلد الجلسة عند كل إغلاق وتشغيل جديد؛ سيحتاج البوت اقترانًا جديدًا في كل مرة.

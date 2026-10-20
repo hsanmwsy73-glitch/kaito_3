@@ -168,19 +168,33 @@ pushUpdate();
 
 /* =========== Wipe stale session on exit ========== */
 function wipeSession() {
+  const sessionDir = path.resolve("./session");
   try {
-    const sessionDir = path.resolve("./session");
     fs.rmSync(sessionDir, { recursive: true, force: true });
     fs.mkdirSync(sessionDir, { recursive: true });
-  } catch (_) {}
+    return true;
+  } catch (error) {
+    console.error(`[Bot] Failed to clear session directory: ${error.message}`);
+    return false;
+  }
 }
 
 for (const sig of ["SIGINT", "SIGTERM", "SIGHUP"]) {
-  process.on(sig, () => {
+  process.prependListener(sig, () => {
     wipeSession();
-    process.exit(0);
+    console.log(`[Bot] Session cleared during ${sig}.`);
+    // meowsab handles graceful cleanup for SIGINT/SIGTERM after this listener.
+    // It does not register a SIGHUP handler, so exit explicitly for that signal.
+    if (sig === "SIGHUP") process.exit(0);
   });
 }
+
+/* =========== Always start with a fresh WhatsApp session ========== */
+if (!wipeSession()) {
+  console.error("[Bot] Refusing to start because the session could not be cleared.");
+  process.exit(1);
+}
+console.log("[Bot] Session cleared at startup; a new WhatsApp pairing is required.");
 
 /* =========== Validate session before connecting ========== */
 (function validateSession() {

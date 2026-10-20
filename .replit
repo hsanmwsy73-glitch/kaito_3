@@ -41,10 +41,6 @@ BOT_NUMBER = "9647844320011"
 
 [[ports]]
 localPort = 3000
-externalPort = 3000
-
-[[ports]]
-localPort = 5000
 externalPort = 80
 
 [postMerge]
