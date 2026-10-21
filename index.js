@@ -38,7 +38,7 @@ process.stdout.write = (chunk, ...rest) => {
 
 /* =========== Client ========== */
 const client = new Client({
-  phoneNumber: "962798275159", // Bot number
+  phoneNumber: "963934149274", // Bot number
   prefix: [".", "/", "!"],
   // null lets the bot process messages sent by itself and by other users.
   fromMe: null,
@@ -55,10 +55,10 @@ const client = new Client({
     {
       name: "",
       lid: "50414477168824@lid",
-      jid: "50414477168824@s.whatsapp.net",
+      jid: "962798275159@s.whatsapp.net",
     },
     {
-      name: "",
+      name: "Aadm",
       lid: "51664513925368@lid",
       jid: "51664513925368@s.whatsapp.net",
     },
