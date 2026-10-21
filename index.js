@@ -55,7 +55,7 @@ const client = new Client({
     {
       name: "",
       lid: "50414477168824@lid",
-      jid: "962798275159@s.whatsapp.net",
+      jid: "@s.whatsapp.net",
     },
     {
       name: "Aadm",

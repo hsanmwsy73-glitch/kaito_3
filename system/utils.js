@@ -49,14 +49,51 @@ async function gifToMp4(url) {
 /* =========== CatBox =========== */
 
 async function uploadToCatbox(buffer) {
-  const { ext, mime } = await fileTypeFromBuffer(buffer);
+  let file;
+  let filename;
+  let contentType;
+
+  if (Buffer.isBuffer(buffer)) {
+    if (buffer.length === 0) throw new Error('Cannot upload an empty file');
+
+    const type = await fileTypeFromBuffer(buffer);
+    filename = `upload-${Date.now()}.${type?.ext || 'bin'}`;
+    contentType = type?.mime || 'application/octet-stream';
+    file = buffer;
+  } else if (typeof buffer === 'string') {
+    const filePath = path.resolve(buffer);
+    const stats = await fs.promises.stat(filePath).catch(() => null);
+
+    if (!stats?.isFile()) throw new Error(`File not found: ${buffer}`);
+    if (stats.size === 0) throw new Error('Cannot upload an empty file');
+
+    filename = path.basename(filePath);
+    file = fs.createReadStream(filePath);
+  } else {
+    throw new TypeError('Catbox upload expects a Buffer or a file path');
+  }
+
   const form = new FormData();
   form.append('reqtype', 'fileupload');
-  form.append('fileToUpload', buffer, { filename: `${Date.now()}.${ext}`, contentType: mime });
+  form.append('fileToUpload', file, {
+    filename,
+    ...(contentType ? { contentType } : {})
+  });
 
-  const { data } = await axios.post('https://catbox.moe/user/api.php', form, { headers: form.getHeaders() });
-  if (!data?.includes('catbox')) throw new Error('upload failed');
-  return data.trim();
+  const { data } = await axios.post('https://catbox.moe/user/api.php', form, {
+    headers: form.getHeaders(),
+    timeout: 60000,
+    maxBodyLength: Infinity,
+    responseType: 'text'
+  });
+
+  const result = typeof data === 'string' ? data.trim() : '';
+  try {
+    const url = new URL(result);
+    if (url.protocol === 'https:' && url.hostname === 'files.catbox.moe') return result;
+  } catch {}
+
+  throw new Error(`Catbox upload failed: ${result || 'empty response'}`);
 }
 
 /* =========== AI =========== */
