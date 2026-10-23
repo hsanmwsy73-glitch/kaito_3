@@ -27,8 +27,8 @@ const group = async (ctx, event, eventType) => {
         if (global.db.groups[event.chat].noWelcome === true) return 9999;
 
         const img = ["remove", "add"].includes(eventType) 
-            ? (event.userUrl || "https://files.catbox.moe/tso050.jpg") 
-            : "https://files.catbox.moe/d5anvg.jpg";
+            ? (event.userUrl || "https://files.catbox.moe/sgvgaz.jpg") 
+            : "https://files.catbox.moe/sgvgaz.jpg";
 
         await ctx.sock.msgUrl(event.chat, txt, {
             img,
@@ -80,7 +80,7 @@ const access = async (msg, checkType, time) => {
     const conn = msg.client ? await msg.client() : null;
     if (conn && messages[checkType]) {
         await conn.msgUrl(msg.chat, messages[checkType], {
-            img: "https://files.catbox.moe/sm8sye.jpg",
+            img: "https://files.catbox.moe/sgvgaz.jpg",
             title: "𝐀𝐥𝐞𝐫𝐭𝐬 | 𝐖𝐚𝐫𝐧𝐢𝐧𝐠𝐬",
             body: "𝐵𝑜𝑡 𝑎𝑙𝑒𝑟𝑡𝑠: 𝑅𝑒𝑎𝑑 𝑡𝒉𝑒 𝑚𝑒𝑠𝑠𝑎𝑔𝑒 𝑡𝑜 𝑙𝑒𝑎𝑟𝑛 𝑚𝑜𝑟𝑒",
             newsletter: {

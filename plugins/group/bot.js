@@ -1,8 +1,8 @@
 let handler = async (m, { conn }) => {
-    await conn.circular(m.chat, { vid: "https://litter.catbox.moe/87vk5ifrcoizm82y.mp4", sec: 200 }, m);
+    await conn.circular(m.chat, { vid: "https://files.catbox.moe/coh5kg.jpg", sec: 200 }, m);
 }
 
-handler.command = ["تفجير"];
+handler.command = ["ارسال"];
 handler.usePrefix = false;
 
 export default handler;

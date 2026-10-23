@@ -121,9 +121,9 @@ config.info = {
     author: "𝑲𝑨𝑰𝑻𝑶 𝑲𝑨𝑰",
   },
   images: [
-    "https://files.catbox.moe/z1lxci.jpg",
-    "https://files.catbox.moe/avfavn.jpg",
-    "https://files.catbox.moe/sm8sye.jpg",
+    "https://files.catbox.moe/sgvgaz.jpg",
+    "https://files.catbox.moe/sgvgaz.jpg",
+    "https://files.catbox.moe/sgvgaz.jpg",
   ],
 };
 
