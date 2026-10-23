@@ -56,7 +56,7 @@ const handler = async (m, { conn, command, bot }) => {
             mentions: [target]
         }, { quoted: m });
 
-    } else if (command === "فك_كتم") {
+    } else if (command === "فك كتم") {
         if (!isMuted) {
             await conn.sendMessage(m.chat, { text: `*❌ @${member} ليس مكتوماً*`, mentions: [target] });
             return;
