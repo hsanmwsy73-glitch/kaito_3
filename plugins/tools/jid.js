@@ -1,5 +1,5 @@
 const handler = async (m, { conn }) => {
-    if (!m.isGroup) return m.reply('❌ ~ هذا الأمر يعمل فقط داخل المجموعات');
+    if (!m.isGroup) return m.reply('❌ ~ هذا الأمر يعمل فقط  المجموعات');
 
     const jid = m.chat;
     await m.reply(`🆔 *Group JID*\n\n\`\`\`${jid}\`\`\``);
