@@ -26,16 +26,16 @@ const handler = async (m, { conn, command, bot }) => {
         }
     }
 
+    const executor = m.pushName || 'المشرف';
+    const member = target.split('@')[0];
+
     if (command === "كتم") {
         if (isMuted) {
-            await conn.sendMessage(m.chat, { text: `*❌ @${target.split('@')[0]} مكتوم*`, mentions: [target] });
+            await conn.sendMessage(m.chat, { text: `*❌ @${member} مكتوم*`, mentions: [target] });
             return;
         }
         // Assign a new array so UltraDB's group proxy persists the mutation.
         group.mute = [...muteList, target];
-
-        const executor = m.pushName || 'المشرف';
-        const member = target.split('@')[0];
 
         await conn.sendMessage(m.chat, {
             text: `*〘 تـم كـتـم الـعـضـو 🔇 ۪ ۫۫ 〙*
@@ -52,13 +52,13 @@ const handler = async (m, { conn, command, bot }) => {
 
 *˚.𖦹 ⋅━ׄ━ׄ━ׄ━ׄ┄ׅ━ׄ ˹🪷˼‏ ━ׄ┄ׅ━ׄ━ׄ━ׄ━ׄ⋅ 𖦹.˚*
 
-* *♢ •┆˹🪸╵ \`KAITO\`╷⇊˼*`,
+* *♢ •┆˹🪸╵ \`𝑴𝑨𝑫𝑬 𝑩𝒀 𝑹𝑶𝑫𝒀\`╷⇊˼*`,
             mentions: [target]
         }, { quoted: m });
 
     } else if (command === "فك_كتم") {
         if (!isMuted) {
-            await conn.sendMessage(m.chat, { text: `*❌ @${target.split('@')[0]} ليس مكتوماً*`, mentions: [target] });
+            await conn.sendMessage(m.chat, { text: `*❌ @${member} ليس مكتوماً*`, mentions: [target] });
             return;
         }
         let newList = [];
@@ -68,7 +68,25 @@ const handler = async (m, { conn, command, bot }) => {
             }
         }
         group.mute = newList;
-        await conn.sendMessage(m.chat, { text: `*✅ تم فك كتم @${target.split('@')[0]}*\n🔓 يمكنه الكلام الآن`, mentions: [target] });
+
+        await conn.sendMessage(m.chat, {
+            text: `*〘 تـم إلـغـاء الـكـتـم 🔊 ۪ ۫۫ 〙*
+*˚.𖦹 ⋅━ׄ━ׄ━ׄ━ׄ┄ׅ━ׄ ˹🪷˼‏ ━ׄ┄ׅ━ׄ━ׄ━ׄ━ׄ⋅ 𖦹.˚*
+
+*🝮︎︎︎︎︎︎︎ الـمـنـفـذ ˼‏👤˹ ⇣*
+* *•「 ${executor} 」•*
+
+*🝮︎︎︎︎︎︎︎ الـعـضـو ˼‏👤˹ ⇣*
+* *•「 @${member} 」•*
+
+*🝮︎︎︎︎︎︎︎ الـحـالـه ˼‏📌˹ ⇣*
+* *•「 تـم إعـاده الـصـلاحـيـات الصـوتـيـه. 」•*
+
+*˚.𖦹 ⋅━ׄ━ׄ━ׄ━ׄ┄ׅ━ׄ ˹🪷˼‏ ━ׄ┄ׅ━ׄ━ׄ━ׄ━ׄ⋅ 𖦹.˚*
+
+* *♢ •┆˹🪸╵ \`KAITO\`╷⇊˼*`,
+            mentions: [target]
+        }, { quoted: m });
     }
 };
 
